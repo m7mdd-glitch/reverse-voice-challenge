@@ -1,0 +1,8 @@
+.env
+*.exe
+*.zip
+config.yml
+run_server.ps1
+node_modules/
+.DS_Store
+Thumbs.db
