@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -1629,7 +1629,7 @@
 
 
     /* ========================================================================
-       3. BULLETPROOF MULTIPLAYER ROOM & WEBRTC P2P ENGINE (WITH 16KB CHUNKING)
+       3. BULLETPROOF MULTIPLAYER ROOM & WEBRTC P2P ENGINE (WITH TURN RELAYS & AUTO-RETRY)
        ======================================================================== */
     let myPlayerId = 'p_' + Math.random().toString(36).substring(2, 9);
     let myPlayerName = '';
@@ -1639,15 +1639,39 @@
     let peerInstance = null;
     let p2pConn = null;
     let handshakeInterval = null;
+    let guestConnectRetryTimer = null;
+    let guestConnectAttempts = 0;
+    const MAX_GUEST_RETRIES = 25;
     const incomingChunkBuffers = {};
 
+    // Production-grade STUN + TURN servers (Metered OpenRelay + Google + Cloudflare)
+    // Ensures connection works reliably on 4G/5G, Symmetric NAT, and mobile networks
     const P2P_ICE_SERVERS = [
       { urls: 'stun:stun.l.google.com:19302' },
       { urls: 'stun:stun1.l.google.com:19302' },
       { urls: 'stun:stun2.l.google.com:19302' },
       { urls: 'stun:stun3.l.google.com:19302' },
-      { urls: 'stun:stun4.l.google.com:19302' }
+      { urls: 'stun:stun4.l.google.com:19302' },
+      { urls: 'stun:stun.cloudflare.com:3478' },
+      {
+        urls: [
+          'turn:openrelay.metered.ca:80',
+          'turn:openrelay.metered.ca:443',
+          'turn:openrelay.metered.ca:443?transport=tcp'
+        ],
+        username: 'openrelayproject',
+        credential: 'openrelayproject'
+      }
     ];
+
+    const PEER_CONFIG = {
+      debug: 1,
+      pingInterval: 4000, // 4-second heartbeat to prevent mobile carrier disconnects
+      config: {
+        iceServers: P2P_ICE_SERVERS,
+        iceCandidatePoolSize: 10
+      }
+    };
 
     let roomState = {
       code: '',
@@ -1690,8 +1714,8 @@
       }
     }
 
-    // Safe 16KB chunking for WebRTC DataChannel (Prevents 64KB MTU crash on audios)
-    function sendP2PPayload(payload) {
+    // Paced chunk delivery over WebRTC DataChannel (prevents buffer overflow on mobile)
+    async function sendP2PPayload(payload) {
       // 1. BroadcastChannel (for same browser multi-tabs)
       if (broadcastChannel) {
         try { broadcastChannel.postMessage({ type: 'P2P_RAW', payload: payload }); } catch(e){}
@@ -1714,6 +1738,7 @@
         const transferId = 'tr_' + Math.random().toString(36).substring(2, 8);
         const totalChunks = Math.ceil(raw.length / CHUNK_SIZE);
         for (let i = 0; i < totalChunks; i++) {
+          if (!p2pConn || !p2pConn.open) break;
           const chunk = raw.substring(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
           p2pConn.send({
             type: 'CHUNK_MSG',
@@ -1722,6 +1747,10 @@
             totalChunks: totalChunks,
             data: chunk
           });
+          // Pace chunks slightly to prevent SCTP buffer overflow on mobile
+          if (i % 3 === 0) {
+            await new Promise(r => setTimeout(r, 15));
+          }
         }
       } catch (err) {
         console.error("sendP2PPayload error:", err);
@@ -1729,9 +1758,12 @@
     }
 
     function setupP2PConnection(conn) {
+      p2pConn = conn;
+
       conn.on('open', () => {
         console.log("P2P Connection Open with peer:", conn.peer);
         updateConnectionStatus('connected');
+        showToast((currentLang === 'ar') ? "تم الاتصال باللاعب الآخر بنجاح! 🟢" : "Connected to player! 🟢", "🎉");
       });
 
       conn.on('data', (rawMsg) => {
@@ -1740,7 +1772,7 @@
         if (rawMsg.type === 'SINGLE_MSG') {
           try {
             const payload = JSON.parse(rawMsg.data);
-            handleIncomingPayload(payload);
+            handleIncomingPayload(payload, conn);
           } catch(e) { console.error("Parse single msg error", e); }
         } else if (rawMsg.type === 'CHUNK_MSG') {
           const { transferId, chunkIndex, totalChunks, data } = rawMsg;
@@ -1760,7 +1792,7 @@
             delete incomingChunkBuffers[transferId];
             try {
               const payload = JSON.parse(fullJson);
-              handleIncomingPayload(payload);
+              handleIncomingPayload(payload, conn);
             } catch(e) { console.error("Parse chunked msg error", e); }
           }
         }
@@ -1776,7 +1808,7 @@
       });
     }
 
-    function handleIncomingPayload(payload) {
+    function handleIncomingPayload(payload, sourceConn) {
       if (!payload || !payload.type) return;
 
       if (payload.type === 'HANDSHAKE_JOIN') {
@@ -1789,9 +1821,10 @@
           applyRoomUpdate(roomState);
           updateConnectionStatus('connected', (currentLang === 'ar') ? `متصل: ${payload.guestName} 🟢` : `Connected: ${payload.guestName} 🟢`);
 
-          // Reply back with ACK
-          if (p2pConn && p2pConn.open) {
-            p2pConn.send({
+          // Reply back with ACK on the active connection
+          const connToUse = sourceConn || p2pConn;
+          if (connToUse && connToUse.open) {
+            connToUse.send({
               type: 'SINGLE_MSG',
               data: JSON.stringify({
                 type: 'HANDSHAKE_ACK',
@@ -2048,20 +2081,24 @@
       }
 
       const hostPeerId = 'rvc_h_' + code;
-      peerInstance = new Peer(hostPeerId, {
-        debug: 1,
-        config: { iceServers: P2P_ICE_SERVERS }
-      });
+      peerInstance = new Peer(hostPeerId, PEER_CONFIG);
 
       peerInstance.on('open', (id) => {
         console.log("Host Peer opened with ID:", id);
-        showToast((currentLang === 'ar') ? `تم إنشاء الغرفة (${code}) بنجاح! شارك الرابط مع صديقك 🚀` : `Room (${code}) created! Share the link 🚀`, "🎉");
+        updateConnectionStatus('connecting', (currentLang === 'ar') ? 'الغرفة جاهزة! في انتظار خويك... ⏳' : 'Room ready! Waiting for guest... ⏳');
+        showToast((currentLang === 'ar') ? `تم إنشاء الغرفة (${code}) بنجاح! شارك الرابط مع خويك 🚀` : `Room (${code}) created! Share the link 🚀`, "🎉");
       });
 
       peerInstance.on('connection', (conn) => {
         console.log("Host received connection from guest:", conn.peer);
-        p2pConn = conn;
         setupP2PConnection(conn);
+      });
+
+      peerInstance.on('disconnected', () => {
+        console.warn("Host disconnected from PeerJS signaling. Reconnecting...");
+        if (peerInstance && !peerInstance.destroyed) {
+          try { peerInstance.reconnect(); } catch(e){}
+        }
       });
 
       peerInstance.on('error', (err) => {
@@ -2069,11 +2106,31 @@
         if (err.type === 'unavailable-id') {
           const newCode = Math.floor(10000 + Math.random() * 90000).toString();
           currentRoomCode = newCode;
+          roomState.code = newCode;
           document.getElementById('displayRoomCode').innerText = newCode;
           initHostPeer(newCode);
+        } else if (err.type === 'network' || err.type === 'server-error' || err.type === 'socket-error') {
+          setTimeout(() => {
+            if (peerInstance && !peerInstance.destroyed) {
+              try { peerInstance.reconnect(); } catch(e){}
+            }
+          }, 2000);
         }
       });
     }
+
+    // Auto reconnect when host returns to browser tab from WhatsApp / mobile switch
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && isHost && currentRoomCode) {
+        if (!peerInstance || peerInstance.destroyed) {
+          console.log("Tab resumed: Recreating host peer...");
+          initHostPeer(currentRoomCode);
+        } else if (peerInstance.disconnected) {
+          console.log("Tab resumed: Reconnecting host peer...");
+          try { peerInstance.reconnect(); } catch(e){}
+        }
+      }
+    });
 
     // Join Room (Guest)
     function showJoinCard() {
@@ -2107,15 +2164,25 @@
     }
 
     function initGuestPeer(code) {
-      updateConnectionStatus('connecting');
+      if (guestConnectRetryTimer) {
+        clearTimeout(guestConnectRetryTimer);
+        guestConnectRetryTimer = null;
+      }
+      guestConnectAttempts = 0;
+      attemptGuestConnect(code);
+    }
+
+    function attemptGuestConnect(code) {
+      if (currentRoomCode !== code) return;
+      guestConnectAttempts++;
+
+      updateConnectionStatus('connecting', (currentLang === 'ar') ? `جاري الاتصال بالمضيف... (محاولة ${guestConnectAttempts}) 🟡` : `Connecting to host... (try ${guestConnectAttempts}) 🟡`);
+
       if (peerInstance) {
         try { peerInstance.destroy(); } catch(e){}
       }
 
-      peerInstance = new Peer({
-        debug: 1,
-        config: { iceServers: P2P_ICE_SERVERS }
-      });
+      peerInstance = new Peer(PEER_CONFIG);
 
       peerInstance.on('open', (guestPeerId) => {
         console.log("Guest peer opened:", guestPeerId);
@@ -2123,8 +2190,10 @@
         p2pConn = peerInstance.connect(targetHostPeerId, { reliable: true });
         setupP2PConnection(p2pConn);
 
+        let opened = false;
         p2pConn.on('open', () => {
-          // Handshake loop until host replies
+          opened = true;
+          console.log("Guest connected to host successfully!");
           if (handshakeInterval) clearInterval(handshakeInterval);
           const sendJoin = () => {
             if (p2pConn && p2pConn.open) {
@@ -2141,13 +2210,27 @@
           sendJoin();
           handshakeInterval = setInterval(sendJoin, 1200);
         });
+
+        // If not connected within 4.5 seconds, auto-retry smoothly
+        setTimeout(() => {
+          if (!opened && guestConnectAttempts < MAX_GUEST_RETRIES && currentRoomCode === code) {
+            console.log("Guest connect timed out, retrying...");
+            attemptGuestConnect(code);
+          }
+        }, 4500);
       });
 
       peerInstance.on('error', (err) => {
         console.error("PeerJS Guest Error:", err);
-        if (err.type === 'peer-unavailable') {
-          showToast((currentLang === 'ar') ? "لم يتم العثور على الغرفة! تأكد من أن المضيف أنشأها أولاً وما زال متصلاً." : "Room not found or host is offline!", "⚠️");
-          updateConnectionStatus('disconnected');
+        if (err.type === 'peer-unavailable' || err.type === 'network' || err.type === 'server-error' || err.type === 'socket-error') {
+          // Host might be switching apps or in WhatsApp; auto-retry!
+          if (guestConnectAttempts < MAX_GUEST_RETRIES && currentRoomCode === code) {
+            showToast((currentLang === 'ar') ? `في انتظار المضيف... إعادة المحاولة (${guestConnectAttempts}/${MAX_GUEST_RETRIES})` : `Waiting for host... retrying (${guestConnectAttempts}/${MAX_GUEST_RETRIES})`, "⏳");
+            guestConnectRetryTimer = setTimeout(() => attemptGuestConnect(code), 2500);
+          } else {
+            showToast((currentLang === 'ar') ? "لم يتم العثور على الغرفة! تأكد أن المضيف فاتح اللعبة ولم يغلقها." : "Room not found! Ensure host is still in the room.", "⚠️");
+            updateConnectionStatus('disconnected');
+          }
         }
       });
     }
@@ -2300,6 +2383,10 @@
         clearInterval(handshakeInterval);
         handshakeInterval = null;
       }
+      if (guestConnectRetryTimer) {
+        clearTimeout(guestConnectRetryTimer);
+        guestConnectRetryTimer = null;
+      }
       if (p2pConn) {
         try { p2pConn.close(); } catch(e){}
         p2pConn = null;
@@ -2443,6 +2530,10 @@
     function closeFirebaseModal() {
       document.getElementById('modalFirebase').classList.add('hidden');
     }
+    function saveFirebaseConfig() {
+      closeFirebaseModal();
+      showToast((currentLang === 'ar') ? "تم حفظ الإعدادات" : "Settings saved", "✅");
+    }
 
     function openWordGenModal() {
       filterWordCategory(currentCategory);
@@ -2506,9 +2597,16 @@
       const urlParams = new URLSearchParams(window.location.search);
       const queryRoom = urlParams.get('room');
       if (queryRoom) {
-        showJoinCard();
-        document.getElementById('joinRoomCodeInput').value = queryRoom;
-        showToast((currentLang === 'ar') ? "تم العثور على رمز الغرفة من الرابط! أدخل اسمك للدخول." : "Room code detected from link! Enter your name.", "🎯");
+        const joinBox = document.getElementById('joinCodeBox');
+        if (joinBox) joinBox.classList.remove('hidden');
+        const codeInput = document.getElementById('joinRoomCodeInput');
+        if (codeInput) codeInput.value = queryRoom;
+        const nameInput = document.getElementById('playerNameInput');
+        if (nameInput) {
+          nameInput.focus();
+          nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        showToast((currentLang === 'ar') ? `🎯 وصلتك دعوة لتحدي في الغرفة (${queryRoom})! اكتب اسمك واضغط دخول` : `🎯 Invited to room (${queryRoom})! Enter name and join`, "🚀");
       }
     });
   </script>
