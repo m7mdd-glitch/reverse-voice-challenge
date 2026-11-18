@@ -542,7 +542,80 @@
         </div>
       </div>
 
-      <!-- ==================== PHASE 3: THE BIG REVEAL & VERTICAL AUDIO FLOW ==================== -->
+            <!-- ==================== PHASE 3: GUESSER LISTENS TO REVERSED MIMIC & GUESSES ==================== -->
+      <div id="stateGuessWord" class="hidden glass-card rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10">
+        <!-- View for Guesser -->
+        <div id="guesserWordView" class="space-y-6">
+          <div class="text-center space-y-2">
+            <span class="px-3.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/20" data-i18n="turnGuessWordBadge">
+              🎉 والآن.. السحر! استمع لصوتك بعد العكس 🔄
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-white" data-i18n="turnGuessWordTitle">
+              استمع لما قلته وخمّن الكلمة الأصلية!
+            </h3>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto" data-i18n="turnGuessWordDesc">
+              نظام اللعبة قام بعكس تقليدك، استمع للصوت وحاول معرفة الكلمة السرية التي قصدها صاحب التحدي!
+            </p>
+          </div>
+
+          <!-- Big Play Button for Reversed Mimic -->
+          <div class="bg-night-900 rounded-2xl p-6 border-2 border-emerald-500/40 text-center space-y-4 shadow-xl">
+            <span class="text-xs text-emerald-400 font-bold block" data-i18n="reversedMimicListenLabel">
+              🔊 صوت تقليدك بعد أن تم عكسه:
+            </span>
+            
+            <button onclick="playAudio('mimic_rev')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-night-950 font-black text-base shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-3 mx-auto transition-all active:scale-95">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span data-i18n="playMyReversedMimic">تشغيل تقليدك معكوساً 🎧</span>
+            </button>
+            <p class="text-[11px] text-slate-400" data-i18n="guessListenTip">استمع أكثر من مرة بتركيز لمعرفة الكلمة!</p>
+          </div>
+
+          <!-- Guess Input Box -->
+          <div class="bg-night-900/90 rounded-2xl p-5 border border-white/10 space-y-3">
+            <label for="guesserWordGuessInput" class="block text-xs font-bold text-slate-300" data-i18n="yourGuessLabel">
+              ما هي الكلمة التي تتوقعها؟ (اكتب تخمينك):
+            </label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input type="text" id="guesserWordGuessInput" placeholder="اكتب تخمينك هنا..." 
+                class="flex-1 bg-night-950 border border-white/10 rounded-xl px-4 py-3.5 text-cyan-300 font-bold text-base focus:outline-none focus:border-cyan-400 placeholder-slate-600 transition-all">
+              <button onclick="submitWordGuess()" class="py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-black text-sm shadow-xl shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 active:scale-95 shrink-0">
+                <span data-i18n="btnSubmitGuess">🚀 إرسال التخمين للتحكيم!</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- View for Challenger (Word owner waiting for Guesser to guess) -->
+        <div id="challengerWaitWordView" class="hidden text-center py-8 space-y-5">
+          <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 mx-auto flex items-center justify-center text-3xl animate-bounce">
+            🤔
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-lg sm:text-xl font-black text-white" data-i18n="guesserWaitingWordGuess">
+              المنافس يستمع لتقليده معكوساً ويخمّن الكلمة الآن...
+            </h3>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto" data-i18n="guesserWaitingWordGuessDesc">
+              أثناء انتظاره، يمكنك أيضاً الاستماع لصوت تقليده بعد العكس:
+            </p>
+          </div>
+          
+          <button onclick="playAudio('mimic_rev')" class="px-6 py-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-bold text-xs border border-purple-500/40 inline-flex items-center gap-2 active:scale-95">
+            <span>🔊 استمع لعكس تقليد المنافس 🎧</span>
+          </button>
+
+          <div class="flex justify-center gap-1.5 pt-2">
+            <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-bounce"></div>
+            <div class="w-2.5 h-2.5 bg-purple-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+            <div class="w-2.5 h-2.5 bg-pink-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ==================== PHASE 4: THE BIG REVEAL & JUDGING ==================== -->
       <div id="stateRevealVote" class="hidden glass-card rounded-3xl p-5 sm:p-8 space-y-6 border border-white/10 transition-all">
         
         <!-- Header -->
@@ -556,7 +629,14 @@
               ---
             </span>
           </h3>
-          <p class="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto" data-i18n="revealSubtitle">
+          
+          <!-- Guesser's Guess Card -->
+          <div class="max-w-md mx-auto mt-3 p-3.5 bg-night-900/90 rounded-2xl border border-cyan-500/30 text-center space-y-1 shadow-lg">
+            <span class="text-xs text-slate-400 font-bold block" data-i18n="guesserSaidGuess">تخمين المنافس كان:</span>
+            <span id="revealedGuesserGuess" class="text-lg sm:text-xl font-black text-cyan-300">---</span>
+          </div>
+
+          <p class="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto pt-2" data-i18n="revealSubtitle">
             استمع للأصوات بالترتيب الرأسي من 1 إلى 4 لمعرفة هل استطاع المنافس كشف الكلمة!
           </p>
         </div>
@@ -895,6 +975,19 @@
         shareWhatsApp: "💬 إرسال عبر واتساب",
         incognitoTip: "تلميح: إذا كنت تختبر اللعبة بمفردك، افتح الرابط في نافذة تصفح خفي (Incognito) أو من جوالك لتلعب ضد نفسك!",
         turnChallenger: "دورك في التحدي 🎙️",
+        turnGuessWordBadge: "🎉 والآن.. السحر! استمع لصوتك بعد العكس 🔄",
+        turnGuessWordTitle: "استمع لما قلته وخمّن الكلمة الأصلية!",
+        turnGuessWordDesc: "نظام اللعبة قام بعكس تقليدك، استمع للصوت وحاول معرفة الكلمة السرية التي قصدها صاحب التحدي!",
+        reversedMimicListenLabel: "🔊 صوت تقليدك بعد أن تم عكسه:",
+        playMyReversedMimic: "تشغيل تقليدك معكوساً 🎧",
+        guessListenTip: "استمع أكثر من مرة بتركيز لمعرفة الكلمة!",
+        yourGuessLabel: "ما هي الكلمة التي تتوقعها؟ (اكتب تخمينك):",
+        yourGuessPlaceholder: "اكتب تخمينك هنا...",
+        btnSubmitGuess: "🚀 إرسال التخمين للتحكيم والكشف!",
+        guesserWaitingWordGuess: "المنافس يستمع لتقليده معكوساً ويخمّن الكلمة الآن...",
+        guesserWaitingWordGuessDesc: "أثناء انتظاره، يمكنك أيضاً الاستماع لصوت تقليده بعد العكس:",
+        guesserSaidGuess: "تخمين المنافس كان:",
+        
         chooseWordTitle: "اختر كلمة وسجلها بصوتك",
         chooseWordDesc: "اختر كلمة وصعوبتها، وانطقها بوضوح لمدة ثوان ثم اعكسها وأرسلها لخصمك!",
         wordInputLabel: "الكلمة التي تريد تسجيلها:",
@@ -921,7 +1014,7 @@
         recordMimicBtn: "سجّل تقليدك",
         mimicReadyLabel: "تسجيل تقليدك جاهز:",
         playMimicVoice: "🔊 استمع لما سجلته",
-        sendMimic: "💥 إرسال التسجيل والوصول للمقارنة!",
+        sendMimic: "💥 استمع لتقليدك معكوساً وخمّن الكلمة!",
         challengerWaitingTitle: "المنافس يستمع لتسجيلك ويحاول تقليده!",
         challengerWaitingDesc: "بمجرد أن يسجل صوته ويرسله، ستظهر المقارنة الرأسية لتقييم هل خرجت نفس كلمتك الأصلية!",
         revealTitle: "🎉 لحظة الحقيقة والمقارنة الرأسية!",
@@ -992,6 +1085,19 @@
         shareWhatsApp: "💬 Share on WhatsApp",
         incognitoTip: "Tip: Testing solo? Open the link in an Incognito window or phone to play against yourself!",
         turnChallenger: "Your Turn to Challenge 🎙️",
+        turnGuessWordBadge: "🎉 Now.. The Magic! Listen to your flipped voice 🔄",
+        turnGuessWordTitle: "Listen to Your Flipped Voice & Guess!",
+        turnGuessWordDesc: "The system reversed your mimic! Listen closely to hear if the original word emerged and make your guess!",
+        reversedMimicListenLabel: "🔊 Your mimic after being reversed:",
+        playMyReversedMimic: "Play Your Reversed Mimic 🎧",
+        guessListenTip: "Listen closely multiple times to guess the secret word!",
+        yourGuessLabel: "What word do you think it is? (Type your guess):",
+        yourGuessPlaceholder: "Type your guess here...",
+        btnSubmitGuess: "🚀 Submit Guess for Verdict & Reveal!",
+        guesserWaitingWordGuess: "Opponent is listening to their reversed mimic and guessing...",
+        guesserWaitingWordGuessDesc: "While waiting, you can also listen to their reversed mimic:",
+        guesserSaidGuess: "Opponent's Guess Was:",
+        
         chooseWordTitle: "Pick a Word & Record It",
         chooseWordDesc: "Choose a word and its difficulty level, speak clearly, then flip and send it!",
         wordInputLabel: "Word to Record:",
@@ -1018,7 +1124,7 @@
         recordMimicBtn: "Record Mimic",
         mimicReadyLabel: "Your mimic recording is ready:",
         playMimicVoice: "🔊 Listen to Your Mimic",
-        sendMimic: "💥 Send Recording & Reveal!",
+        sendMimic: "💥 Listen to Reversed Mimic & Guess!",
         challengerWaitingTitle: "Opponent is listening & mimicking your voice!",
         challengerWaitingDesc: "Once they submit, the vertical comparison timeline will reveal if they nailed it!",
         revealTitle: "🎉 The Moment of Truth & Comparison!",
@@ -1687,6 +1793,7 @@
       secretWord: '',
       wordDifficulty: 'medium',
       difficultyPoints: 2,
+      guesserGuess: '',
       lastJudgeResult: null,
       audioChallengeOrig: '',
       audioChallengeRev: '',
@@ -1892,6 +1999,7 @@
       const waitPlayerBox = document.getElementById('stateWaitingPlayer');
       const recordChallengeBox = document.getElementById('stateRecordChallenge');
       const guessMimicBox = document.getElementById('stateGuessMimic');
+      const guessWordBox = document.getElementById('stateGuessWord');
       const revealVoteBox = document.getElementById('stateRevealVote');
 
       const challengerView = document.getElementById('challengerView');
@@ -1905,6 +2013,7 @@
       waitPlayerBox.classList.add('hidden');
       recordChallengeBox.classList.add('hidden');
       guessMimicBox.classList.add('hidden');
+      if (guessWordBox) guessWordBox.classList.add('hidden');
       revealVoteBox.classList.add('hidden');
 
       if (roomState.turn === 'host') {
@@ -1941,9 +2050,30 @@
           guesserActiveView.classList.add('hidden');
           challengerWaitingView.classList.remove('hidden');
         }
+      } else if (step === 'guess_word') {
+        if (guessWordBox) guessWordBox.classList.remove('hidden');
+        if (roomState.audioMimicRev) audioDataUrls.mimic_rev = roomState.audioMimicRev;
+        if (roomState.audioChallengeRev) audioDataUrls.challenge_rev = roomState.audioChallengeRev;
+
+        const guesserWordView = document.getElementById('guesserWordView');
+        const challengerWaitWordView = document.getElementById('challengerWaitWordView');
+
+        if (!amIChallenger) {
+          if (guesserWordView) guesserWordView.classList.remove('hidden');
+          if (challengerWaitWordView) challengerWaitWordView.classList.add('hidden');
+          const guessInput = document.getElementById('guesserWordGuessInput');
+          if (guessInput) guessInput.focus();
+        } else {
+          if (guesserWordView) guesserWordView.classList.add('hidden');
+          if (challengerWaitWordView) challengerWaitWordView.classList.remove('hidden');
+        }
       } else if (step === 'reveal_vote') {
         revealVoteBox.classList.remove('hidden');
         document.getElementById('revealedSecretWord').innerText = roomState.secretWord || '---';
+        const guessDisp = document.getElementById('revealedGuesserGuess');
+        if (guessDisp) {
+          guessDisp.innerText = roomState.guesserGuess || (currentLang === 'ar' ? '(تخمين شفهي بدون كتابة)' : '(Verbal Guess)');
+        }
         audioDataUrls.reveal_p1_orig = roomState.audioChallengeOrig;
         audioDataUrls.reveal_p1_rev = roomState.audioChallengeRev;
         audioDataUrls.reveal_p2_mimic = roomState.audioMimicOrig;
@@ -2262,6 +2392,24 @@
       showToast((currentLang === 'ar') ? "تم إرسال الصوت المعكوس للمنافس بنجاح! 🚀" : "Sent reversed challenge to opponent! 🚀", "✅");
     }
 
+    // Submit Word Guess from Guesser after hearing reversed mimic
+    function submitWordGuess() {
+      const input = document.getElementById('guesserWordGuessInput');
+      const guess = input ? input.value.trim() : '';
+
+      showToast((currentLang === 'ar') ? "جاري تجهيز التحكيم والكشف النهائي..." : "Submitting guess to judge...", "⏳");
+
+      const patch = {
+        guesserGuess: guess || (currentLang === 'ar' ? '(تخمين شفهي)' : '(Verbal Guess)'),
+        step: 'reveal_vote'
+      };
+
+      applyRoomUpdate(patch);
+      sendP2PPayload({ type: 'STATE_UPDATE', patch: patch });
+
+      showToast((currentLang === 'ar') ? "تم إرسال تخمينك! لحظة التحكيم والكشف ⚖️" : "Guess submitted! Time for judgment ⚖️", "💥");
+    }
+
     // Submit Mimic Attempt from Guesser
     async function submitMimicAttempt() {
       if (!audioDataUrls.mimic_orig) {
@@ -2274,13 +2422,14 @@
       const patch = {
         audioMimicOrig: audioDataUrls.mimic_orig,
         audioMimicRev: audioDataUrls.mimic_rev,
-        step: 'reveal_vote'
+        step: 'guess_word',
+        guesserGuess: ''
       };
 
       applyRoomUpdate(patch);
       sendP2PPayload({ type: 'STATE_UPDATE', patch: patch });
 
-      showToast((currentLang === 'ar') ? "وصلت النتيجة! افتحوا الأصوات بالترتيب الرأسي! 🎧" : "Result ready! Listen in vertical order! 🎧", "💥");
+      showToast((currentLang === 'ar') ? "الآن استمع لتقليدك معكوساً وخمّن الكلمة! 🎯" : "Now listen to your reversed mimic & guess! 🎯", "✨");
     }
 
     // Judge Round and award points (ONLY the Challenger who set the original word can judge)
@@ -2350,12 +2499,16 @@
       if (document.getElementById('secretWordInput')) {
         document.getElementById('secretWordInput').value = '';
       }
+      if (document.getElementById('guesserWordGuessInput')) {
+        document.getElementById('guesserWordGuessInput').value = '';
+      }
 
       const patch = {
         round: nextRound,
         turn: nextTurn,
         step: 'record_challenge',
         secretWord: '',
+        guesserGuess: '',
         lastJudgeResult: null,
         audioChallengeOrig: '',
         audioChallengeRev: '',
