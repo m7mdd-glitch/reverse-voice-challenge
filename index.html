@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تحدي عكس الصوت | Reverse Voice Challenge</title>
   
-  <!-- خط تجوال و كايرو من Google Fonts -->
+  <!-- خطوط عربية ولاتينية حديثة من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,15 +19,16 @@
         extend: {
           fontFamily: {
             cairo: ['Cairo', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
             tajawal: ['Tajawal', 'sans-serif'],
           },
           colors: {
             night: {
-              950: '#070a12',
-              900: '#0d1322',
-              800: '#141d33',
-              700: '#1d2a4a',
-              600: '#2c3e6b',
+              950: '#060911',
+              900: '#0c1220',
+              800: '#131b2e',
+              700: '#1c2844',
+              600: '#2a3b64',
             },
             neon: {
               cyan: '#00f0ff',
@@ -40,16 +41,18 @@
           animation: {
             'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             'glow-pulse': 'glow 2s ease-in-out infinite alternate',
-            'wave-bar': 'waveBar 1.2s ease-in-out infinite alternate',
+            'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
           },
           keyframes: {
             glow: {
-              '0%': { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2)' },
-              '100%': { boxShadow: '0 0 30px rgba(176, 38, 255, 0.8), inset 0 0 20px rgba(176, 38, 255, 0.4)' },
+              '0%': { boxShadow: '0 0 15px rgba(0, 240, 255, 0.3), inset 0 0 10px rgba(0, 240, 255, 0.2)' },
+              '100%': { boxShadow: '0 0 30px rgba(176, 38, 255, 0.7), inset 0 0 20px rgba(176, 38, 255, 0.4)' },
             },
-            waveBar: {
-              '0%': { height: '15%' },
-              '100%': { height: '100%' },
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' },
             }
           }
         }
@@ -69,8 +72,8 @@
 
   <style>
     body {
-      font-family: 'Cairo', 'Tajawal', sans-serif;
-      background-color: #070a12;
+      font-family: 'Cairo', 'Poppins', 'Tajawal', sans-serif;
+      background-color: #060911;
       color: #f1f5f9;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
@@ -78,7 +81,7 @@
 
     /* Glassmorphism effects */
     .glass-card {
-      background: rgba(13, 19, 34, 0.75);
+      background: rgba(12, 18, 32, 0.78);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -99,43 +102,50 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .neon-text-pink {
-      background: linear-gradient(135deg, #ff007f 0%, #b026ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
     .neon-text-gold {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Custom Scrollbar */
+    /* Custom animated audio wave */
+    .audio-wave-bar {
+      width: 4px;
+      border-radius: 9999px;
+      background: linear-gradient(to top, #00f0ff, #b026ff);
+      transition: height 0.1s ease;
+    }
+
+    /* Scrollbar styling */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #070a12;
+      background: rgba(6, 9, 17, 0.6);
     }
     ::-webkit-scrollbar-thumb {
-      background: #1d2a4a;
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #2c3e6b;
+      background: rgba(0, 240, 255, 0.4);
     }
 
-    /* Animated Grid Background */
-    .bg-grid-pattern {
-      background-size: 40px 40px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    /* Directional overrides when English is selected */
+    html[dir="ltr"] body {
+      font-family: 'Poppins', 'Cairo', sans-serif;
     }
   </style>
 </head>
-<body class="min-h-screen bg-night-950 text-slate-100 flex flex-col justify-between bg-grid-pattern overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-night-950">
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]"></div>
+    <div class="absolute top-1/2 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px]"></div>
+    <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-pink-500/10 rounded-full blur-[130px]"></div>
+  </div>
 
   <!-- ======================== Header ======================== -->
   <header class="w-full glass-card border-b border-white/10 sticky top-0 z-40 px-4 py-3 sm:px-6">
@@ -143,40 +153,38 @@
       
       <!-- Logo & Title -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="goToLobby()">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
           <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
           </svg>
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold tracking-tight flex items-center gap-2">
-            <span class="neon-text-cyan">تحدي عكس الصوت</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hidden sm:inline-block">أونلاين</span>
+            <span class="neon-text-cyan" data-i18n="appTitle">تحدي عكس الصوت</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold" data-i18n="tagOnline">أونلاين</span>
           </h1>
-          <p class="text-[11px] text-slate-400">Reverse Voice Challenge</p>
+          <p class="text-[11px] text-slate-400 font-mono" data-i18n="appSubtitle">Reverse Voice Challenge</p>
         </div>
       </div>
 
-      <!-- Quick Actions / Status -->
+      <!-- Quick Actions / Language / Status -->
       <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Language Switcher Button -->
+        <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black glass-card border border-white/10 hover:border-cyan-400 text-cyan-300 transition-all active:scale-95 shadow-sm">
+          <span>🌐</span>
+          <span id="currentLangLabel">English 🇺🇸</span>
+        </button>
+
         <!-- Connection Status Badge -->
-        <button id="connectionStatusBtn" onclick="openFirebaseModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold glass-card border border-white/10 transition-colors hover:border-cyan-500/50">
-          <span id="statusIndicatorDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span id="statusIndicatorText" class="text-slate-300">محلي (تجريبي)</span>
+        <button id="connectionStatusBtn" onclick="openFirebaseModal()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold glass-card border border-white/10 hover:border-cyan-500/40">
+          <span id="statusIndicatorDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="statusIndicatorText" class="text-slate-300">سحابي P2P</span>
         </button>
 
         <!-- Help / Rules -->
-        <button onclick="openRulesModal()" class="p-2 rounded-lg glass-card hover:bg-slate-800/60 text-slate-300 hover:text-white transition-colors" title="كيف تلعب؟">
+        <button onclick="openRulesModal()" class="p-2 rounded-xl glass-card hover:bg-slate-800/60 text-slate-300 hover:text-white transition-colors" title="كيف تلعب؟">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </button>
-
-        <!-- Settings (Firebase Config) -->
-        <button onclick="openFirebaseModal()" class="p-2 rounded-lg glass-card hover:bg-slate-800/60 text-slate-300 hover:text-cyan-400 transition-colors" title="إعدادات Firebase">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </button>
       </div>
@@ -184,44 +192,32 @@
     </div>
   </header>
 
-  <!-- Firestore Activation Helper Banner (shows only if Firestore API is disabled) -->
-  <div id="firestoreNoticeBanner" class="hidden bg-amber-500/15 border-b border-amber-500/30 text-amber-200 px-4 py-2.5 text-xs">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span class="flex items-center gap-1.5 font-bold">
-        <span>⚠️ تنبيه: قاعدة بيانات Firestore غير مفعلة بعد في مشروع Firebase الخاص بك!</span>
-      </span>
-      <a href="https://console.firebase.google.com/project/l3bh-4ce19/firestore" target="_blank" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-night-950 font-black rounded-lg transition-all text-[11px] shadow">
-        👉 اضغط هنا لتفعيل Firestore في ثوانٍ
-      </a>
-    </div>
-  </div>
-
   <!-- ======================== Main App Container ======================== -->
   <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
 
     <!-- ==================== SCREEN 1: LOBBY / HOME ==================== -->
-    <div id="screenLobby" class="space-y-8 py-6">
+    <div id="screenLobby" class="space-y-8 py-4 sm:py-6">
       <!-- Hero Banner -->
       <div class="text-center space-y-3">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs sm:text-sm font-semibold">
-          <span>🎙️ سجل بالمعكوس واكشف الكلمة! 🔄</span>
+          <span data-i18n="heroBadge">🎙️ سجل بالمعكوس واكشف الكلمة! 🔄</span>
         </div>
-        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-          التحدي الصوتي <span class="neon-text-cyan">الأغرب والأمتع</span>
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight" data-i18n="heroTitle">
+          التحدي الصوتي <span class="neon-text-cyan">الأمتع والأغرب</span>
         </h2>
-        <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          سجل كلمة أو اسم صحابي، ودع النظام يعكس صوتك! التحدي على صديقك أن يقلد الصوت المعكوس، لنقوم بعكس صوته وكشف إن كان سينطق نفس الكلمة الأصلية!
+        <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto leading-relaxed" data-i18n="heroDesc">
+          سجل كلمة أو اسم شخصية، ودع النظام يعكس صوتك! التحدي على صديقك أن يقلد الصوت المعكوس، لنقوم بعكس صوته ونكشف هل نطق الكلمة الأصلية أم لا!
         </p>
       </div>
 
       <!-- Player Profile Card -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md mx-auto shadow-2xl space-y-5 border border-white/10">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto shadow-2xl space-y-5 border border-white/10">
         <div>
-          <label class="block text-sm font-bold text-slate-300 mb-2">اسمك في التحدي:</label>
+          <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2" data-i18n="yourName">اسمك في التحدي:</label>
           <div class="relative">
-            <input type="text" id="playerNameInput" maxlength="18" placeholder="مثال: البطل، عمر، سارة..." 
+            <input type="text" id="playerNameInput" maxlength="18" placeholder="مثال: البطل، فهد، سارة..." 
               class="w-full bg-night-900 border border-white/10 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm font-semibold">
-            <span class="absolute left-3 top-3.5 text-slate-500 text-sm">👤</span>
+            <span class="absolute end-3.5 top-3.5 text-slate-500 text-sm">👤</span>
           </div>
         </div>
 
@@ -231,30 +227,30 @@
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            <span>إنشاء غرفة جديدة</span>
+            <span data-i18n="createRoom">إنشاء غرفة جديدة</span>
           </button>
 
-          <!-- Join Room Modal Trigger -->
+          <!-- Join Room Trigger -->
           <button onclick="showJoinCard()" class="w-full py-3.5 px-4 rounded-xl glass-card hover:bg-slate-800/80 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 font-extrabold text-sm transition-all flex items-center justify-center gap-2 active:scale-95">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
-            <span>الانضمام برمز</span>
+            <span data-i18n="joinRoom">الانضمام برمز</span>
           </button>
         </div>
 
         <!-- Solo / Practice Mode Button -->
         <button onclick="startSoloPracticeMode()" class="w-full py-2.5 px-4 rounded-xl bg-purple-600/15 hover:bg-purple-600/25 text-purple-300 border border-purple-500/30 font-bold text-xs transition-all flex items-center justify-center gap-2 active:scale-95">
-          <span>🎯 تجربة سريعة بمفردك (سجل واسمع صوتك معكوساً فوراً)</span>
+          <span data-i18n="soloPractice">🎯 تجربة سريعة بمفردك (سجل واسمع صوتك معكوساً فوراً)</span>
         </button>
 
-        <!-- Join By Code Section (Collapsible/Hidden by default unless requested) -->
+        <!-- Join By Code Box (Collapsible) -->
         <div id="joinCodeBox" class="hidden pt-4 border-t border-white/10 space-y-3">
-          <label class="block text-xs font-bold text-slate-300">أدخل رمز الغرفة المكون من 5 خانات:</label>
+          <label class="block text-xs font-bold text-slate-300" data-i18n="enterRoomCode">أدخل رمز الغرفة المكون من 5 أرقام:</label>
           <div class="flex gap-2">
-            <input type="text" id="joinRoomCodeInput" uppercase maxlength="7" placeholder="مثال: 94821" 
+            <input type="text" id="joinRoomCodeInput" maxlength="7" placeholder="مثال: 94821" 
               class="flex-1 bg-night-900 border border-white/10 rounded-xl px-4 py-2.5 text-center text-lg font-mono font-bold tracking-widest text-cyan-300 uppercase focus:outline-none focus:border-cyan-400">
-            <button onclick="handleJoinRoomSubmit()" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black rounded-xl text-sm transition-all shadow-md">
+            <button onclick="handleJoinRoomSubmit()" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black rounded-xl text-sm transition-all shadow-md" data-i18n="btnEnter">
               دخول
             </button>
           </div>
@@ -267,35 +263,35 @@
     <div id="screenRoom" class="hidden space-y-5">
       
       <!-- Top Room Dashboard -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 border border-white/10 shadow-lg">
+      <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 border border-white/10 shadow-lg">
         <!-- Room Code & Share -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
           <div class="px-3 py-1.5 rounded-xl bg-night-900 border border-cyan-500/30 flex items-center gap-2">
-            <span class="text-xs text-slate-400 font-semibold">الغرفة:</span>
+            <span class="text-xs text-slate-400 font-semibold" data-i18n="roomLabel">الغرفة:</span>
             <span id="displayRoomCode" class="font-mono font-extrabold text-cyan-400 text-base tracking-wider">-----</span>
           </div>
           <button onclick="copyShareableLink()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            <span>نسخ الرابط</span>
+            <span data-i18n="copyLink">نسخ الرابط</span>
           </button>
         </div>
 
-        <!-- Round & Turn Info -->
+        <!-- Round & Leave -->
         <div class="flex items-center gap-2">
           <div class="px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold flex items-center gap-1.5">
-            <span>الجولة:</span>
+            <span data-i18n="roundLabel">الجولة:</span>
             <span id="displayRoundNumber" class="text-sm font-extrabold text-white">1</span>
           </div>
-          <button onclick="leaveRoom()" class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition-all">
+          <button onclick="leaveRoom()" class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition-all" data-i18n="leaveRoom">
             مغادرة
           </button>
         </div>
       </div>
 
       <!-- Realtime Scoreboard -->
-      <div class="grid grid-cols-2 gap-3 sm:gap-5">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
         <!-- Player 1 (Host) Card -->
         <div id="p1Card" class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 relative overflow-hidden transition-all">
           <div class="flex items-center justify-between mb-2">
@@ -304,13 +300,13 @@
                 👑
               </div>
               <div>
-                <span id="p1Name" class="font-bold text-sm sm:text-base text-slate-100 block truncate max-w-[100px] sm:max-w-[140px]">اللاعب 1</span>
-                <span id="p1RoleBadge" class="text-[10px] text-cyan-400 block font-semibold">المضيف</span>
+                <span id="p1Name" class="font-bold text-xs sm:text-sm text-slate-100 block truncate max-w-[90px] sm:max-w-[130px]">اللاعب 1</span>
+                <span id="p1RoleBadge" class="text-[10px] text-cyan-400 block font-semibold" data-i18n="roleHost">المضيف</span>
               </div>
             </div>
             <span id="p1Score" class="text-2xl sm:text-3xl font-black text-cyan-400">0</span>
           </div>
-          <div id="p1TurnIndicator" class="hidden text-xs py-1 px-2 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-center font-bold animate-pulse">
+          <div id="p1TurnIndicator" class="hidden text-[11px] py-1 px-2 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-center font-bold animate-pulse" data-i18n="turnIndicatorChallenge">
             الدور الحالي: تحدي 🎙️
           </div>
         </div>
@@ -323,112 +319,130 @@
                 🎯
               </div>
               <div>
-                <span id="p2Name" class="font-bold text-sm sm:text-base text-slate-100 block truncate max-w-[100px] sm:max-w-[140px]">في انتظار المنافس...</span>
-                <span id="p2RoleBadge" class="text-[10px] text-purple-400 block font-semibold">المنافس</span>
+                <span id="p2Name" class="font-bold text-xs sm:text-sm text-slate-100 block truncate max-w-[90px] sm:max-w-[130px]">في انتظار المنافس...</span>
+                <span id="p2RoleBadge" class="text-[10px] text-purple-400 block font-semibold" data-i18n="roleCompetitor">المنافس</span>
               </div>
             </div>
             <span id="p2Score" class="text-2xl sm:text-3xl font-black text-purple-400">0</span>
           </div>
-          <div id="p2TurnIndicator" class="hidden text-xs py-1 px-2 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 text-center font-bold animate-pulse">
+          <div id="p2TurnIndicator" class="hidden text-[11px] py-1 px-2 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 text-center font-bold animate-pulse" data-i18n="turnIndicatorChallenge">
             الدور الحالي: تحدي 🎙️
           </div>
         </div>
       </div>
 
       <!-- WAITING LOBBY (When Player 2 has not joined yet) -->
-      <div id="stateWaitingPlayer" class="glass-card rounded-2xl p-8 sm:p-12 text-center space-y-6 border border-white/10">
+      <div id="stateWaitingPlayer" class="glass-card rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-white/10">
         <div class="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mx-auto flex items-center justify-center text-3xl animate-bounce">
           ⏳
         </div>
         <div class="space-y-2">
-          <h3 class="text-xl sm:text-2xl font-black text-white">في انتظار انضمام المنافس...</h3>
-          <p class="text-slate-400 text-sm max-w-md mx-auto">
+          <h3 class="text-xl sm:text-2xl font-black text-white" data-i18n="waitingCompetitorTitle">في انتظار انضمام المنافس...</h3>
+          <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto leading-relaxed" data-i18n="waitingCompetitorDesc">
             شارك رمز الغرفة أو أرسل رابط المشاركة المباشر لصديقك ليدخل التحدي معك فوراً!
           </p>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-          <button onclick="copyShareableLink()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20">
-            <span>📋 نسخ الرابط المباشر</span>
+          <button onclick="copyShareableLink()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20">
+            <span data-i18n="copyDirectLink">📋 نسخ الرابط المباشر</span>
           </button>
-          <button onclick="shareOnWhatsApp()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm transition-all flex items-center justify-center gap-2">
-            <span>💬 إرسال عبر واتساب</span>
+          <button onclick="shareOnWhatsApp()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2">
+            <span data-i18n="shareWhatsApp">💬 إرسال عبر واتساب</span>
           </button>
         </div>
 
-        <div class="pt-4 border-t border-white/10 text-xs text-slate-500">
-          تلميح: إذا كنت تختبر اللعبة، يمكنك فتح الرابط في نافذة تصفح خفي (Incognito) أو متصفح آخر لتلعب ضد نفسك!
+        <div class="pt-4 border-t border-white/10 text-[11px] text-slate-500" data-i18n="incognitoTip">
+          تلميح: إذا كنت تختبر اللعبة بمفردك، افتح الرابط في نافذة تصفح خفي (Incognito) أو من جوالك لتلعب ضد نفسك!
         </div>
       </div>
 
       <!-- ==================== PHASE 1: CHALLENGER RECORDING ==================== -->
-      <div id="stateRecordChallenge" class="hidden glass-card rounded-2xl p-6 sm:p-8 space-y-6 border border-white/10">
+      <div id="stateRecordChallenge" class="hidden glass-card rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10">
         <!-- View for Challenger -->
         <div id="challengerView" class="space-y-6">
           <div class="text-center space-y-2">
-            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/20">دورك في التحدي 🎙️</span>
-            <h3 class="text-xl sm:text-2xl font-black text-white">اختر كلمة وسجلها بصوتك</h3>
-            <p class="text-slate-400 text-xs sm:text-sm">
-              اختر اسماً أو كلمة صعبة ومضحكة، انطقها بوضوح لمدة ثوان معدودة ثم اعكسها وأرسلها لخصمك!
+            <span class="px-3.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/20" data-i18n="turnChallenger">دورك في التحدي 🎙️</span>
+            <h3 class="text-xl sm:text-2xl font-black text-white" data-i18n="chooseWordTitle">اختر كلمة وسجلها بصوتك</h3>
+            <p class="text-slate-400 text-xs sm:text-sm" data-i18n="chooseWordDesc">
+              اختر كلمة وصعوبتها، وانطقها بوضوح لمدة ثوان ثم اعكسها وأرسلها لخصمك!
             </p>
           </div>
 
-          <!-- Secret Word Manual Entry & Optional Idea Bank -->
-          <div class="bg-night-900/90 rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+          <!-- Secret Word Manual Entry & Difficulty Selector -->
+          <div class="bg-night-900/90 rounded-2xl p-4 sm:p-5 border border-white/10 space-y-4">
             <div class="flex items-center justify-between">
-              <label for="secretWordInput" class="text-xs font-bold text-slate-300">أدخل الكلمة التي تريد تسجيلها بنفسك:</label>
-              <!-- Optional Ideas Button -->
-              <button onclick="openWordGenModal()" class="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 active:scale-95 py-1 px-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                <span>💡 أفكار مقترحة (إذا احتجت)</span>
+              <label for="secretWordInput" class="text-xs font-bold text-slate-300" data-i18n="wordInputLabel">الكلمة التي تريد تسجيلها:</label>
+              <!-- Ideas Bank Modal Button -->
+              <button onclick="openWordGenModal()" class="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 active:scale-95 py-1.5 px-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+                <span data-i18n="ideasBankBtn">💡 بنك الأفكار والاقتراحات</span>
               </button>
             </div>
             
-            <input type="text" id="secretWordInput" placeholder="اكتب كلمتك هنا بنفسك (مثال: اسم صحابي، مثل، أو كلمة صعبة)..." 
-              class="w-full bg-night-950 border border-white/10 rounded-xl px-4 py-3.5 text-cyan-300 font-bold text-base focus:outline-none focus:border-cyan-400 placeholder-slate-500">
-            <p class="text-[11px] text-slate-400">حدد كلمتك السرية أولاً، ثم اضغط زر التسجيل بالأسفل لتنطقها بوضوح.</p>
+            <input type="text" id="secretWordInput" placeholder="اكتب كلمتك هنا بنفسك أو اختر من بنك الأفكار..." 
+              class="w-full bg-night-950 border border-white/10 rounded-xl px-4 py-3.5 text-cyan-300 font-bold text-base focus:outline-none focus:border-cyan-400 placeholder-slate-600 transition-all">
+
+            <!-- Difficulty & Points Selector -->
+            <div>
+              <span class="block text-xs font-bold text-slate-300 mb-2" data-i18n="difficultyLabel">مستوى الصعوبة والنقاط:</span>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" onclick="selectDifficulty('easy')" id="diffBtnEasy" class="py-2.5 px-3 rounded-xl border border-white/10 glass-card text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95">
+                  <span class="text-emerald-400 text-sm">🟢</span>
+                  <span data-i18n="easyDiff">سهل (1 نقطة)</span>
+                </button>
+                <button type="button" onclick="selectDifficulty('medium')" id="diffBtnMedium" class="py-2.5 px-3 rounded-xl border border-amber-500/50 bg-amber-500/20 text-amber-300 text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95 shadow-md">
+                  <span class="text-amber-400 text-sm">🟡</span>
+                  <span data-i18n="mediumDiff">متوسط (2 نقطة)</span>
+                </button>
+                <button type="button" onclick="selectDifficulty('hard')" id="diffBtnHard" class="py-2.5 px-3 rounded-xl border border-white/10 glass-card text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95">
+                  <span class="text-rose-400 text-sm">🔴</span>
+                  <span data-i18n="hardDiff">صعب (3 نقاط)</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Audio Waveform Live Canvas -->
           <div class="w-full h-24 bg-night-950 rounded-2xl border border-white/10 overflow-hidden relative flex items-center justify-center">
             <canvas id="recordVisualizerCanvas" class="w-full h-full"></canvas>
-            <div id="recordingTimer" class="absolute top-2 right-3 text-xs font-mono font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30 hidden">
+            <div id="recordingTimer" class="absolute top-2 end-3 text-xs font-mono font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30 hidden">
               00:00
             </div>
-            <span id="canvasOverlayPrompt" class="text-xs text-slate-500 absolute">الموجات الصوتية ستظهر هنا أثناء التسجيل</span>
+            <span id="canvasOverlayPrompt" class="text-xs text-slate-500 absolute" data-i18n="canvasPromptRecord">الموجات الصوتية ستظهر هنا أثناء التسجيل</span>
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex flex-col items-center justify-center gap-4">
+          <div class="flex flex-col items-center justify-center gap-3">
             <button id="btnRecordWord" onclick="toggleRecording('challenge')" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white flex flex-col items-center justify-center shadow-xl shadow-rose-500/30 transition-all active:scale-95 focus:outline-none relative group">
               <div id="recordPulseRing" class="absolute inset-0 rounded-full bg-rose-500 animate-ping opacity-30 hidden"></div>
               <svg id="micIcon" class="w-8 h-8 sm:w-10 sm:h-10 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
               </svg>
-              <span id="recordBtnLabel" class="text-[11px] font-black mt-1">سجّل الآن</span>
+              <span id="recordBtnLabel" class="text-[11px] font-black mt-1" data-i18n="recordWord">سجّل الآن</span>
             </button>
-            <span class="text-xs text-slate-400 font-medium">اضغط لبدء التسجيل (2-4 ثوان)، ثم اضغط ثانية للإنهاء</span>
+            <span class="text-xs text-slate-400 font-medium" data-i18n="recordingTip">اضغط لبدء التسجيل (2-4 ثوان)، ثم اضغط ثانية للإنهاء</span>
           </div>
 
           <!-- Audio Review & Reverse Test Box -->
-          <div id="challengeReviewBox" class="hidden bg-night-900/80 rounded-2xl p-4 sm:p-5 border border-cyan-500/20 space-y-4">
-            <h4 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+          <div id="challengeReviewBox" class="hidden bg-night-900/90 rounded-2xl p-4 sm:p-5 border border-cyan-500/30 space-y-4 shadow-xl">
+            <h4 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5" data-i18n="reviewAudioHeader">
               <span>🎧 استمع للتسجيل قبل الإرسال:</span>
             </h4>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <!-- Play Original -->
               <button onclick="playAudio('challenge_orig')" class="py-2.5 px-4 rounded-xl glass-card hover:bg-slate-800 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 border border-white/10 active:scale-95">
-                <span>🔊 تشغيل صوتك الأصلي</span>
+                <span data-i18n="playOrigVoice">🔊 تشغيل صوتك الأصلي</span>
               </button>
               <!-- Play Reversed -->
               <button onclick="playAudio('challenge_rev')" class="py-2.5 px-4 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs font-bold flex items-center justify-center gap-2 border border-purple-500/40 active:scale-95">
-                <span>🔄 استمع للصوت المعكوس</span>
+                <span data-i18n="playRevVoice">🔄 استمع للصوت المعكوس</span>
               </button>
             </div>
 
             <!-- Send to Opponent Button -->
             <button onclick="submitChallengeToOpponent()" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-black text-sm shadow-xl shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 active:scale-95">
-              <span>🚀 إرسال التحدي المعكوس للمنافس</span>
+              <span data-i18n="sendChallenge">🚀 إرسال التحدي المعكوس للمنافس</span>
             </button>
           </div>
         </div>
@@ -439,8 +453,8 @@
             🎙️
           </div>
           <div class="space-y-1">
-            <h3 class="text-lg sm:text-xl font-black text-white">المنافس يسجل التحدي الآن...</h3>
-            <p class="text-slate-400 text-xs sm:text-sm">
+            <h3 class="text-lg sm:text-xl font-black text-white" data-i18n="guesserWaitingTitle">المنافس يسجل التحدي الآن...</h3>
+            <p class="text-slate-400 text-xs sm:text-sm" data-i18n="guesserWaitingDesc">
               انتظر لحظات، يقوم باختيار كلمة وتسجيلها وعكسها ليرسلها إليك!
             </p>
           </div>
@@ -453,58 +467,63 @@
       </div>
 
       <!-- ==================== PHASE 2: GUESSER MIMICKING ==================== -->
-      <div id="stateGuessMimic" class="hidden glass-card rounded-2xl p-6 sm:p-8 space-y-6 border border-white/10">
+      <div id="stateGuessMimic" class="hidden glass-card rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10">
         <!-- View for Guesser -->
         <div id="guesserActiveView" class="space-y-6">
           <div class="text-center space-y-2">
-            <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold border border-purple-500/20">وصلك تحدي معكوس! 🎯</span>
-            <h3 class="text-xl sm:text-2xl font-black text-white">استمع للتسجيل وقلّده بصوتك</h3>
-            <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto">
-              اضغط زر التشغيل لسماع الصوت المعكوس قدر ما تشاء، ثم سجل صوتك وأنت تقلده تماماً بحذافيره!
+            <span class="px-3.5 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold border border-purple-500/20" data-i18n="turnGuesser">وصلك تحدي معكوس! 🎯</span>
+            <h3 class="text-xl sm:text-2xl font-black text-white" data-i18n="listenReversedTitle">استمع للتسجيل وقلّده بصوتك</h3>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto" data-i18n="listenReversedDesc">
+              اضغط زر التشغيل لسماع الصوت المعكوس، ثم سجل صوتك وأنت تقلده تماماً بحذافيره!
             </p>
           </div>
 
-          <!-- Play Received Reversed Audio Card -->
+          <!-- Received Reversed Audio Card & Difficulty Badge -->
           <div class="bg-night-900 rounded-2xl p-6 border border-purple-500/30 text-center space-y-4 shadow-xl">
-            <span class="text-xs text-slate-400 font-bold block">التسجيل المعكوس من المنافس:</span>
+            <div class="flex items-center justify-center gap-2">
+              <span class="text-xs text-slate-400 font-bold" data-i18n="opponentRecordingLabel">التسجيل المعكوس من المنافس:</span>
+              <span id="revealedDifficultyBadge" class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-black border border-amber-500/40">
+                🟡 متوسط (+2 نقطة)
+              </span>
+            </div>
             
             <button onclick="playAudio('challenge_rev')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-base shadow-lg shadow-purple-600/30 flex items-center justify-center gap-3 mx-auto transition-all active:scale-95">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
               </svg>
-              <span>تشغيل الصوت المعكوس 🎧</span>
+              <span data-i18n="playReversedBtn">تشغيل الصوت المعكوس 🎧</span>
             </button>
-            <p class="text-[11px] text-slate-400">كرر الاستماع جيداً وحاول حفظ مخارج الحروف الغريبة!</p>
+            <p class="text-[11px] text-slate-400" data-i18n="mimicListenTip">كرر الاستماع جيداً وحاول حفظ مخارج الحروف الغريبة!</p>
           </div>
 
           <!-- Mimic Recording Canvas Visualizer -->
           <div class="w-full h-24 bg-night-950 rounded-2xl border border-white/10 overflow-hidden relative flex items-center justify-center">
             <canvas id="mimicVisualizerCanvas" class="w-full h-full"></canvas>
-            <span id="canvasMimicOverlayPrompt" class="text-xs text-slate-500 absolute">سجّل تقليدك للصوت المعكوس</span>
+            <span id="canvasMimicOverlayPrompt" class="text-xs text-slate-500 absolute" data-i18n="recordMimicBtn">سجّل تقليدك للصوت المعكوس</span>
           </div>
 
           <!-- Action Record Button for Mimic -->
-          <div class="flex flex-col items-center justify-center gap-4">
+          <div class="flex flex-col items-center justify-center gap-3">
             <button id="btnRecordMimic" onclick="toggleRecording('mimic')" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex flex-col items-center justify-center shadow-xl shadow-purple-500/30 transition-all active:scale-95 focus:outline-none relative group">
               <div id="mimicPulseRing" class="absolute inset-0 rounded-full bg-purple-500 animate-ping opacity-30 hidden"></div>
               <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
               </svg>
-              <span id="mimicBtnLabel" class="text-[11px] font-black mt-1">سجّل تقليدك</span>
+              <span id="mimicBtnLabel" class="text-[11px] font-black mt-1" data-i18n="recordMimicBtn">سجّل تقليدك</span>
             </button>
-            <span class="text-xs text-slate-400 font-medium">سجّل الصوت المعكوس كما سمعته بأكبر قدر ممكن من الدقة</span>
+            <span class="text-xs text-slate-400 font-medium" data-i18n="recordingTip">اضغط لبدء التسجيل ثم اضغط ثانية للإنهاء</span>
           </div>
 
           <!-- Mimic Review Box -->
-          <div id="mimicReviewBox" class="hidden bg-night-900/80 rounded-2xl p-4 sm:p-5 border border-purple-500/20 space-y-4">
+          <div id="mimicReviewBox" class="hidden bg-night-900/90 rounded-2xl p-4 sm:p-5 border border-purple-500/30 space-y-4 shadow-xl">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-300">تسجيل تقليدك جاهز:</span>
+              <span class="text-xs font-bold text-slate-300" data-i18n="mimicReadyLabel">تسجيل تقليدك جاهز:</span>
               <button onclick="playAudio('mimic_orig')" class="text-xs text-cyan-400 hover:underline font-bold flex items-center gap-1">
-                <span>🔊 استمع لما سجلته</span>
+                <span data-i18n="playMimicVoice">🔊 استمع لما سجلته</span>
               </button>
             </div>
             <button onclick="submitMimicAttempt()" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-night-950 font-black text-sm shadow-xl shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 active:scale-95">
-              <span>💥 إرسال التسجيل وكشف النتيجة!</span>
+              <span data-i18n="sendMimic">💥 إرسال التسجيل والوصول للمقارنة!</span>
             </button>
           </div>
         </div>
@@ -515,130 +534,150 @@
             🎧
           </div>
           <div class="space-y-1">
-            <h3 class="text-lg sm:text-xl font-black text-white">المنافس يستمع لتسجيلك ويحاول تقليده!</h3>
-            <p class="text-slate-400 text-xs sm:text-sm">
-              بمجرد أن يسجل صوته ويرسله، سنقوم بعكس صوته لمعرفة هل استطاع كشف كلمتك الأصلية!
+            <h3 class="text-lg sm:text-xl font-black text-white" data-i18n="challengerWaitingTitle">المنافس يستمع لتسجيلك ويحاول تقليده!</h3>
+            <p class="text-slate-400 text-xs sm:text-sm" data-i18n="challengerWaitingDesc">
+              بمجرد أن يسجل صوته ويرسله، ستظهر المقارنة الرأسية لتقييم هل خرجت نفس كلمتك الأصلية!
             </p>
           </div>
         </div>
       </div>
 
-      <!-- ==================== PHASE 3: THE BIG REVEAL & VOTING ==================== -->
-      <div id="stateRevealVote" class="hidden glass-card rounded-2xl p-6 sm:p-8 space-y-6 border border-white/10">
+      <!-- ==================== PHASE 3: THE BIG REVEAL & VERTICAL AUDIO FLOW ==================== -->
+      <div id="stateRevealVote" class="hidden glass-card rounded-3xl p-5 sm:p-8 space-y-6 border border-white/10 transition-all">
         
+        <!-- Header -->
         <div class="text-center space-y-2">
-          <span class="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30">
-            🎉 لحظة الحقيقة والكشف!
+          <span class="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30" data-i18n="revealTitle">
+            🎉 لحظة الحقيقة والمقارنة الرأسية!
           </span>
-          <h3 class="text-2xl sm:text-3xl font-black text-white">
-            الكلمة الأصلية كانت: 
-            <span id="revealedSecretWord" class="neon-text-gold font-extrabold text-3xl sm:text-4xl block sm:inline mt-1 sm:mt-0 underline decoration-amber-500/50">
+          <h3 class="text-xl sm:text-2xl font-black text-white">
+            <span data-i18n="secretWordWas">الكلمة الأصلية كانت:</span> 
+            <span id="revealedSecretWord" class="neon-text-gold font-extrabold text-2xl sm:text-3xl block sm:inline mt-1 sm:mt-0 underline decoration-amber-500/50">
               ---
             </span>
           </h3>
-          <p class="text-slate-400 text-xs sm:text-sm">
-            استمعوا للمقارنة العجيبة! هل عندما عكسنا تقليد المنافس خرجت نفس الكلمة الأصلية؟
+          <p class="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto" data-i18n="revealSubtitle">
+            استمع للأصوات بالترتيب الرأسي من 1 إلى 4 لمعرفة هل استطاع المنافس كشف الكلمة!
           </p>
         </div>
 
-        <!-- 4 Comparative Audio Players Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
+        <!-- VERTICAL CHRONOLOGICAL AUDIO TIMELINE (1 -> 2 -> 3 -> 4) -->
+        <div id="verticalAudioTimeline" class="space-y-3 max-w-xl mx-auto">
           
-          <!-- 1. Original Word -->
-          <div class="bg-night-900 rounded-2xl p-4 border border-white/10 space-y-2">
+          <!-- STEP 1: Original Word -->
+          <div class="bg-night-900/90 rounded-2xl p-4 border border-cyan-500/30 space-y-2 transition-all hover:border-cyan-400/50">
             <div class="flex items-center justify-between text-xs font-bold text-slate-300">
-              <span class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                <span>1. الكلمة الأصلية (المتحدي):</span>
+              <span class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-black text-xs">1</span>
+                <span data-i18n="step1Title">الكلمة الأصلية (صاحب التحدي):</span>
               </span>
-              <span class="text-slate-500 text-[10px]">الأصل</span>
+              <span class="text-slate-500 text-[10px]" data-i18n="step1Badge">الصوت الأصلي</span>
             </div>
-            <button onclick="playAudio('reveal_p1_orig')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-cyan-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95">
-              <span>🔊 استمع للصوت الأصلي</span>
+            <button onclick="playAudio('reveal_p1_orig')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-cyan-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95 shadow-sm">
+              <span data-i18n="step1Btn">🔊 استمع للكلمة الأصلية</span>
             </button>
           </div>
 
-          <!-- 2. Reversed Challenge -->
-          <div class="bg-night-900 rounded-2xl p-4 border border-white/10 space-y-2">
+          <!-- Connector Arrow 1 -> 2 -->
+          <div class="flex justify-center text-slate-500">
+            <span class="text-[11px] font-bold bg-night-950 px-3 py-0.5 rounded-full border border-white/5" data-i18n="arrowReversed">⬇️ تم عكس الصوت</span>
+          </div>
+
+          <!-- STEP 2: Reversed Audio Heard by Opponent -->
+          <div class="bg-night-900/90 rounded-2xl p-4 border border-purple-500/30 space-y-2 transition-all hover:border-purple-400/50">
             <div class="flex items-center justify-between text-xs font-bold text-slate-300">
-              <span class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                <span>2. الصوت المعكوس الأول:</span>
+              <span class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black text-xs">2</span>
+                <span data-i18n="step2Title">الصوت المعكوس الأول:</span>
               </span>
-              <span class="text-slate-500 text-[10px]">الذي سمعه المنافس</span>
+              <span class="text-slate-500 text-[10px]" data-i18n="step2Badge">الذي سمعه المنافس</span>
             </div>
-            <button onclick="playAudio('reveal_p1_rev')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-purple-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95">
-              <span>🔄 الصوت المعكوس</span>
+            <button onclick="playAudio('reveal_p1_rev')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-purple-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95 shadow-sm">
+              <span data-i18n="step2Btn">🔄 استمع للصوت المعكوس</span>
             </button>
           </div>
 
-          <!-- 3. Player 2 Mimic -->
-          <div class="bg-night-900 rounded-2xl p-4 border border-white/10 space-y-2">
+          <!-- Connector Arrow 2 -> 3 -->
+          <div class="flex justify-center text-slate-500">
+            <span class="text-[11px] font-bold bg-night-950 px-3 py-0.5 rounded-full border border-white/5" data-i18n="arrowMimic">⬇️ المنافس استمع وحاول محاكاته</span>
+          </div>
+
+          <!-- STEP 3: Player 2 Mimic Attempt -->
+          <div class="bg-night-900/90 rounded-2xl p-4 border border-pink-500/30 space-y-2 transition-all hover:border-pink-400/50">
             <div class="flex items-center justify-between text-xs font-bold text-slate-300">
-              <span class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-pink-400"></span>
-                <span>3. تقليد المنافس:</span>
+              <span class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-black text-xs">3</span>
+                <span data-i18n="step3Title">تسجيل تقليد المنافس:</span>
               </span>
-              <span class="text-slate-500 text-[10px]">التقليد المباشر</span>
+              <span class="text-slate-500 text-[10px]" data-i18n="step3Badge">التقليد المباشر</span>
             </div>
-            <button onclick="playAudio('reveal_p2_mimic')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-pink-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95">
-              <span>🎭 استمع لتقليد المنافس</span>
+            <button onclick="playAudio('reveal_p2_mimic')" class="w-full py-3 px-4 rounded-xl glass-card hover:bg-slate-800 text-pink-300 font-bold text-xs flex items-center justify-center gap-2 border border-white/10 active:scale-95 shadow-sm">
+              <span data-i18n="step3Btn">🎭 استمع لتقليد المنافس</span>
             </button>
           </div>
 
-          <!-- 4. REVERSED MIMIC (THE MAGIC!) -->
-          <div class="bg-night-900 rounded-2xl p-4 border border-emerald-500/40 bg-gradient-to-br from-night-900 to-emerald-950/30 space-y-2 shadow-lg shadow-emerald-500/10">
-            <div class="flex items-center justify-between text-xs font-bold text-emerald-400">
-              <span class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>4. 🌟 عكس تقليد المنافس (السحر!):</span>
+          <!-- Connector Arrow 3 -> 4 (The Reveal) -->
+          <div class="flex justify-center text-slate-500">
+            <span class="text-[11px] font-black bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 px-3.5 py-1 rounded-full border border-emerald-500/30 animate-pulse" data-i18n="arrowMagic">
+              ⬇️ والآن.. السحر! عكس تسجيل المنافس (النتيجة الحاسمة)
+            </span>
+          </div>
+
+          <!-- STEP 4: REVERSED MIMIC (THE BIG MAGIC REVEAL) -->
+          <div class="bg-night-900/95 rounded-2xl p-4.5 border-2 border-emerald-500/50 bg-gradient-to-br from-night-900 to-emerald-950/40 space-y-2.5 shadow-xl shadow-emerald-500/10">
+            <div class="flex items-center justify-between text-xs font-black text-emerald-400">
+              <span class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-night-950 flex items-center justify-center font-black text-xs">4</span>
+                <span data-i18n="step4Title">🌟 عكس تقليد المنافس (هل خرجت الكلمة الأصلية؟):</span>
               </span>
-              <span class="text-emerald-500 text-[10px]">كشف النتيجة</span>
+              <span class="text-emerald-400 text-[10px]" data-i18n="step4Badge">كشف النتيجة</span>
             </div>
-            <button onclick="playAudio('reveal_p2_rev')" class="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-night-950 font-black text-xs flex items-center justify-center gap-2 shadow-md active:scale-95">
-              <span>🚀 تشغيل عكس التقليد!</span>
+            <button onclick="playAudio('reveal_p2_rev')" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-night-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95">
+              <span data-i18n="step4Btn">🚀 تشغيل عكس التقليد!</span>
             </button>
           </div>
 
         </div>
 
-        <!-- Evaluation Container: ONLY for the Challenger (صاحب الكلمة الأصلية) -->
-        <div id="challengerJudgeBox" class="bg-night-900/90 rounded-2xl p-5 border border-amber-500/30 space-y-4 text-center">
+        <!-- JUDGMENT BOX: Only for the Challenger (صاحب الكلمة) -->
+        <div id="challengerJudgeBox" class="bg-night-900/90 rounded-2xl p-5 border border-amber-500/30 space-y-4 text-center max-w-xl mx-auto shadow-2xl">
           <div class="space-y-1">
-            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30 inline-block">
+            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30 inline-block" data-i18n="judgeTitle">
               ⚖️ قرارك بصفتك صاحب الكلمة الأصلية
             </span>
-            <h4 class="text-sm font-bold text-slate-200">استمع لتسجيل تقليد المنافس (المربع 3 و 4)، ثم قرر: هل أصاب النطق؟</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-200" data-i18n="judgeDesc">
+              استمع للخطوة 3 و 4، ثم احكم: هل استطاع المنافس إخراج كلمتك بنطق سليم؟
+            </h4>
           </div>
           
           <div id="judgeButtonsRow" class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button onclick="judgeRound(true)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-night-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95">
-              <span>✅ نعم، التقليد صحيح! (+1 نقطة للمنافس)</span>
+            <button onclick="judgeRound(true)" id="btnJudgeCorrect" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-night-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95">
+              <span>✅ نعم، التقليد صحيح! (+<span id="judgeCorrectPointsNum">2</span> نقاط)</span>
             </button>
-            <button onclick="judgeRound(false)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-400 font-bold text-sm border border-rose-500/30 flex items-center justify-center gap-2 active:scale-95">
-              <span>❌ لا، النطق بعيد وغير صحيح (0 نقطة)</span>
+            <button onclick="judgeRound(false)" id="btnJudgeWrong" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-400 font-bold text-xs sm:text-sm border border-rose-500/30 flex items-center justify-center gap-2 active:scale-95" data-i18n="judgeWrong">
+              <span>❌ لا، النطق غير مطابق (0 نقطة)</span>
             </button>
           </div>
 
           <div id="judgeFeedbackNotice" class="hidden text-xs font-bold py-2.5 px-4 rounded-xl"></div>
           
           <div class="pt-2">
-            <button onclick="startNextRound()" class="px-6 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all">
+            <button onclick="startNextRound()" class="px-6 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all" data-i18n="nextRound">
               <span>الانتقال للجولة التالية وتبديل الأدوار 🔁</span>
             </button>
           </div>
         </div>
 
-        <!-- Waiting Container: ONLY for the Guesser (المقلّد) -->
-        <div id="guesserWaitJudgeBox" class="hidden bg-night-900/90 rounded-2xl p-6 border border-white/10 space-y-3 text-center">
+        <!-- WAITING BOX: Only for the Guesser (المقلّد) -->
+        <div id="guesserWaitJudgeBox" class="hidden bg-night-900/90 rounded-2xl p-6 border border-white/10 space-y-3 text-center max-w-xl mx-auto">
           <div class="w-12 h-12 rounded-full bg-cyan-500/10 text-cyan-400 mx-auto flex items-center justify-center text-2xl animate-pulse">
             ⏳
           </div>
-          <h4 class="text-sm font-bold text-white">في انتظار تقييم صاحب الكلمة الأصلية...</h4>
-          <p class="text-xs text-slate-400">
-            صاحب الكلمة يستمع الآن لتسجيلك ويقرر هل نطقك مطابق لكلمته لتستحق نقطة أم لا!
+          <h4 class="text-sm font-bold text-white" data-i18n="waitingJudgeTitle">في انتظار تقييم صاحب الكلمة الأصلية...</h4>
+          <p class="text-xs text-slate-400" data-i18n="waitingJudgeDesc">
+            صاحب الكلمة يستمع الآن لتسجيلك ويقرر هل نطقك مطابق لكلمته لتستحق النقاط أم لا!
           </p>
-          <div id="guesserVerdictNotice" class="hidden text-xs font-bold py-2.5 px-4 rounded-xl mt-2"></div>
+          <div id="guesserVerdictNotice" class="hidden text-xs font-bold py-2.5 px-4 rounded-xl"></div>
         </div>
 
       </div>
@@ -648,92 +687,49 @@
   </main>
 
   <!-- ======================== Footer ======================== -->
-  <footer class="w-full py-3 px-4 text-center text-xs text-slate-500 border-t border-white/5 glass-card">
+  <footer class="w-full glass-card border-t border-white/10 py-4 px-4 text-center text-xs text-slate-500">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span>تحدي عكس الصوت © 2026 — ألعاب الويب التفاعلية عبر Web Audio API</span>
-      <div class="flex items-center gap-3 text-slate-400">
-        <button onclick="openWordGenModal()" class="hover:text-cyan-400">بنك الكلمات</button>
-        <span>•</span>
-        <button onclick="openFirebaseModal()" class="hover:text-cyan-400">إعدادات الاتصال</button>
-      </div>
+      <span data-i18n="footerCredit">تحدي عكس الصوت © 2026 - تجربة صوتية تفاعلية بتقنية Web Audio API</span>
+      <span class="font-mono text-[11px] text-cyan-400/80">Reverse Voice Challenge</span>
     </div>
   </footer>
 
   <!-- ======================== MODALS ======================== -->
 
-  <!-- 1. Firebase Configuration Modal -->
-  <div id="modalFirebase" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-white/10 space-y-5 shadow-2xl overflow-y-auto max-h-[90vh]">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
-            🔥
-          </div>
-          <div>
-            <h3 class="font-extrabold text-base text-white">إعدادات الربط أونلاين (Firebase)</h3>
-            <p class="text-xs text-slate-400">لربط الأجهزة عبر الإنترنت فورياً</p>
-          </div>
-        </div>
-        <button onclick="closeFirebaseModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
+  <!-- 0. Language Selector Modal (Opens on first visit if not selected) -->
+  <div id="modalLanguage" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 border border-white/15 space-y-6 shadow-2xl text-center">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-3xl mx-auto shadow-lg shadow-cyan-500/20">
+        🌐
+      </div>
+      <div class="space-y-1">
+        <h3 class="text-xl sm:text-2xl font-black text-white">اختر لغة اللعبة</h3>
+        <p class="text-xs sm:text-sm text-slate-400 font-mono">Select Game Language</p>
       </div>
 
-      <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-        <p>
-          تدعم اللعبة وضعين للتشغيل:
-        </p>
-        <div class="p-3 bg-night-900 rounded-xl border border-emerald-500/30 text-emerald-300 space-y-1">
-          <span class="font-bold block">1. الوضع المحلي / التجريبي (بدون إعدادات):</span>
-          <span>يمكنك تجربة اللعبة حالاً بفتح علامتي تبويب في نفس المتصفح والمزامنة التلقائية فورية!</span>
-        </div>
-        <div class="p-3 bg-night-900 rounded-xl border border-cyan-500/30 text-cyan-300 space-y-1">
-          <span class="font-bold block">2. اللعب أونلاين بين جهازين مختلفين (Firebase Firestore):</span>
-          <span>الصق إعدادات مشروع Firebase الخاص بك بالأسفل لتعمل الغرف وتزامن الأصوات سحابياً فورياً:</span>
-        </div>
-      </div>
-
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">API Key:</label>
-          <input type="text" id="fbApiKey" value="AIzaSyAD9dy-xYMpxhsjwdKYcugnouIENGoOX4p4" placeholder="AIzaSy..." class="w-full bg-night-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">Project ID:</label>
-          <input type="text" id="fbProjectId" value="l3bh-4ce19" placeholder="my-reverse-game..." class="w-full bg-night-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">Auth Domain (اختياري):</label>
-          <input type="text" id="fbAuthDomain" value="l3bh-4ce19.firebaseapp.com" placeholder="my-reverse-game.firebaseapp.com" class="w-full bg-night-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
-        </div>
-
-        <!-- Security Rules Guidance -->
-        <div class="p-3 bg-night-950 rounded-xl border border-white/5 space-y-1.5">
-          <span class="text-[11px] font-bold text-amber-400 block">⚠️ تأكد من ضبط قواعد Firestore Security Rules:</span>
-          <pre class="text-[10px] bg-night-900 p-2 rounded text-slate-400 font-mono overflow-x-auto select-all">match /reverse_rooms/{document=**} {
-  allow read, write: if true;
-}</pre>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-between pt-2">
-        <button onclick="useLocalModeOnly()" class="px-4 py-2.5 rounded-xl glass-card text-slate-300 hover:text-white text-xs font-bold border border-white/10">
-          استخدام الوضع التجريبي
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <button onclick="setLanguage('ar')" class="p-4 rounded-2xl bg-night-900 border-2 border-cyan-500/50 hover:border-cyan-400 hover:bg-slate-800 text-white font-extrabold text-base flex flex-col items-center gap-2 transition-all active:scale-95 shadow-lg shadow-cyan-500/10">
+          <span class="text-3xl">🇸🇦</span>
+          <span>العربية</span>
         </button>
-        <button onclick="saveFirebaseConfig()" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black text-xs transition-all shadow-md">
-          حفظ وتفعيل Firebase
+
+        <button onclick="setLanguage('en')" class="p-4 rounded-2xl bg-night-900 border-2 border-purple-500/50 hover:border-purple-400 hover:bg-slate-800 text-white font-extrabold text-base flex flex-col items-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-500/10">
+          <span class="text-3xl">🇺🇸</span>
+          <span>English</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- 2. Word Generator & Sahaba Ideas Modal -->
+  <!-- 1. Word Generator & Ideas Modal -->
   <div id="modalWordGen" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="glass-card max-w-xl w-full rounded-2xl p-6 border border-white/10 space-y-5 shadow-2xl overflow-y-auto max-h-[90vh]">
+    <div class="glass-card max-w-xl w-full rounded-3xl p-6 border border-white/10 space-y-4 shadow-2xl overflow-y-auto max-h-[90vh]">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2">
           <span class="text-2xl">💡</span>
           <div>
-            <h3 class="font-extrabold text-base text-white">بنك الكلمات وأسماء الصحابة</h3>
-            <p class="text-xs text-slate-400">أفكار مضحكة وصعبة لتحدي عكس الصوت</p>
+            <h3 class="font-black text-base text-white" data-i18n="ideasBankTitle">بنك الكلمات والمقترحات</h3>
+            <p class="text-xs text-slate-400" data-i18n="ideasBankSubtitle">أفكار ممتعة مقسمة حسب الصعوبة والتصنيف</p>
           </div>
         </div>
         <button onclick="closeWordGenModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
@@ -741,38 +737,50 @@
 
       <!-- Categories tabs -->
       <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold">
-        <button onclick="filterWordCategory('sahaba')" id="tabSahaba" class="px-3 py-1.5 rounded-lg bg-cyan-500 text-night-950 whitespace-nowrap">
-          أسماء الصحابة ⭐
+        <button onclick="filterWordCategory('general')" id="tabGeneral" class="px-3 py-1.5 rounded-xl bg-cyan-500 text-night-950 whitespace-nowrap">
+          عامة وبسيطة ☕
         </button>
-        <button onclick="filterWordCategory('hard')" id="tabHard" class="px-3 py-1.5 rounded-lg glass-card text-slate-300 hover:text-white whitespace-nowrap">
-          كلمات صعبة ومعقدة 🤯
+        <button onclick="filterWordCategory('celebrities')" id="tabCelebrities" class="px-3 py-1.5 rounded-xl glass-card text-slate-300 hover:text-white whitespace-nowrap">
+          مشاهير ونجوم ⭐
         </button>
-        <button onclick="filterWordCategory('proverbs')" id="tabProverbs" class="px-3 py-1.5 rounded-lg glass-card text-slate-300 hover:text-white whitespace-nowrap">
-          أمثال وتحديات لسان 👅
+        <button onclick="filterWordCategory('football')" id="tabFootball" class="px-3 py-1.5 rounded-xl glass-card text-slate-300 hover:text-white whitespace-nowrap">
+          كرة قدم ورياضة ⚽
         </button>
-        <button onclick="filterWordCategory('funny')" id="tabFunny" class="px-3 py-1.5 rounded-lg glass-card text-slate-300 hover:text-white whitespace-nowrap">
-          أكلات ومصطلحات طريفة 🍔
+        <button onclick="filterWordCategory('anime_movies')" id="tabAnime" class="px-3 py-1.5 rounded-xl glass-card text-slate-300 hover:text-white whitespace-nowrap">
+          أفلام وأنمي 🎬
         </button>
+        <button onclick="filterWordCategory('food')" id="tabFood" class="px-3 py-1.5 rounded-xl glass-card text-slate-300 hover:text-white whitespace-nowrap">
+          أكلات ومشروبات 🍔
+        </button>
+      </div>
+
+      <!-- Difficulty sub-filters -->
+      <div class="flex items-center gap-2 text-[11px] font-bold border-y border-white/5 py-2">
+        <span class="text-slate-400" data-i18n="filterDifficulty">الصعوبة:</span>
+        <button onclick="filterWordDifficulty('all')" id="subDiffAll" class="px-2.5 py-1 rounded-lg bg-white/20 text-white">الكل</button>
+        <button onclick="filterWordDifficulty('easy')" id="subDiffEasy" class="px-2.5 py-1 rounded-lg text-emerald-400 hover:bg-emerald-500/10">🟢 سهل (1 نقطة)</button>
+        <button onclick="filterWordDifficulty('medium')" id="subDiffMedium" class="px-2.5 py-1 rounded-lg text-amber-400 hover:bg-amber-500/10">🟡 متوسط (2 نقطة)</button>
+        <button onclick="filterWordDifficulty('hard')" id="subDiffHard" class="px-2.5 py-1 rounded-lg text-rose-400 hover:bg-rose-500/10">🔴 صعب (3 نقاط)</button>
       </div>
 
       <!-- Words Grid -->
-      <div id="wordsListContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1">
+      <div id="wordsListContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-60 overflow-y-auto p-1">
         <!-- Rendered via JS -->
       </div>
 
-      <div class="pt-2 text-center">
-        <button onclick="pickRandomFromCurrentCategory()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-extrabold text-xs transition-all shadow-lg active:scale-95">
+      <div class="pt-2">
+        <button onclick="pickRandomFromCurrentCategory()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-extrabold text-xs transition-all shadow-lg active:scale-95" data-i18n="pickRandomBtn">
           🎲 اختيار كلمة عشوائية فوراً
         </button>
       </div>
     </div>
   </div>
 
-  <!-- 3. How to play Modal -->
+  <!-- 2. How to play Modal -->
   <div id="modalRules" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-white/10 space-y-4 shadow-2xl">
+    <div class="glass-card max-w-md w-full rounded-3xl p-6 border border-white/10 space-y-4 shadow-2xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+        <h3 class="font-black text-base text-white flex items-center gap-2" data-i18n="rulesTitle">
           <span>📖 كيف تلعب تحدي عكس الصوت؟</span>
         </h3>
         <button onclick="closeRulesModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
@@ -782,39 +790,66 @@
         <div class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold shrink-0">1</span>
           <div>
-            <span class="font-bold text-white block">تسجيل المتحدي:</span>
-            يقوم اللاعب الأول باختيار كلمة سرية (مثلاً: "خالد بن الوليد") ويسجلها بصوته لمدة ثانيتين إلى 4 ثوان.
+            <span class="font-bold text-white block" data-i18n="rule1Title">1. تسجيل المتحدي:</span>
+            <span data-i18n="rule1Desc">يحدد اللاعب الأول كلمة سرية وصعوبتها (سهل 1، متوسط 2، صعب 3) ويسجلها بصوته لمدة ثانيتين إلى 4 ثوان.</span>
           </div>
         </div>
 
         <div class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold shrink-0">2</span>
           <div>
-            <span class="font-bold text-white block">عكس الصوت تلقائياً:</span>
-            يقوم النظام بعكس مصفوفة الصوت فتبدو مثل لغة غريبة أو طلاسم فضائية! ويتم إرسالها للمنافس.
+            <span class="font-bold text-white block" data-i18n="rule2Title">2. عكس الصوت تلقائياً:</span>
+            <span data-i18n="rule2Desc">يقوم النظام بعكس مصفوفة الصوت فتبدو كنغمة مقلوبة غريبة، ويتم إرسالها للمنافس.</span>
           </div>
         </div>
 
         <div class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold shrink-0">3</span>
           <div>
-            <span class="font-bold text-white block">محاكاة وتقليد المنافس:</span>
-            يستمع المنافس للصوت المعكوس فقط، ويسجل صوته وهو يحاول تقليد هذه الأصوات الغريبة بأعلى دقة.
+            <span class="font-bold text-white block" data-i18n="rule3Title">3. محاكاة وتقليد المنافس:</span>
+            <span data-i18n="rule3Desc">يستمع المنافس للنغمة المعكوسة ويسجل صوته وهو يحاول تقليد هذه الأصوات الغريبة بأعلى دقة.</span>
           </div>
         </div>
 
         <div class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold shrink-0">4</span>
           <div>
-            <span class="font-bold text-white block">كشف السحر:</span>
-            يقوم النظام بعكس تسجيل المنافس! إذا كان تقليده متقناً، فسيتحول صوته المعكوس إلى الكلمة الأصلية تماماً!
+            <span class="font-bold text-white block" data-i18n="rule4Title">4. كشف السحر والتحكيم:</span>
+            <span data-i18n="rule4Desc">يقوم النظام بعكس تسجيل المنافس؛ إذا كان النطق مطابقاً للكلمة الأصلية، يعتمد صاحب التحدي النتيجة وتحسب النقاط!</span>
           </div>
         </div>
       </div>
 
-      <button onclick="closeRulesModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition-all">
+      <button onclick="closeRulesModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition-all" data-i18n="btnGotIt">
         فهمت، لنبدأ التحدي!
       </button>
+    </div>
+  </div>
+
+  <!-- 3. Firebase Configuration Modal -->
+  <div id="modalFirebase" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full rounded-3xl p-6 border border-white/10 space-y-4 shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h3 class="font-black text-base text-white">إعدادات الاتصال أونلاين</h3>
+        <button onclick="closeFirebaseModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+        <p>تدعم اللعبة الاتصال السريع التلقائي عبر <b>WebRTC PeerJS P2P</b> و <b>Netlify Functions</b>، بالإضافة لخيار الربط عبر Firebase Firestore.</p>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">API Key:</label>
+          <input type="text" id="fbApiKey" value="AIzaSyAD9dy-xYMpxhsjwdKYcugnouIENGoOX4p4" class="w-full bg-night-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Project ID:</label>
+          <input type="text" id="fbProjectId" value="l3bh-4ce19" class="w-full bg-night-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <button onclick="closeFirebaseModal()" class="px-4 py-2.5 rounded-xl glass-card text-slate-300 text-xs font-bold">إغلاق</button>
+        <button onclick="saveFirebaseConfig()" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-night-950 font-black text-xs">حفظ</button>
+      </div>
     </div>
   </div>
 
@@ -827,35 +862,406 @@
   <!-- ======================== JAVASCRIPT LOGIC ======================== -->
   <script>
     /* ========================================================================
-       1. GAME DATA & DICTIONARY
+       1. BILINGUAL TRANSLATIONS & DICTIONARY
        ======================================================================== */
-    const WORDS_DATABASE = {
-      sahaba: [
-        "أبو بكر الصديق", "عمر بن الخطاب", "عثمان بن عفان", "علي بن أبي طالب",
-        "خالد بن الوليد", "حمزة بن عبد المطلب", "مصعب بن عمير", "بلال بن رباح",
-        "سعد بن أبي وقاص", "أبو عبيدة عامر بن الجراح", "الزبير بن العوام",
-        "طلحة بن عبيد الله", "عبد الرحمن بن عوف", "معاذ بن جبل", "سلمان الفارسي",
-        "البراء بن مالك", "جعفر بن أبي طالب", "صهيب الرومي", "حذيفة بن اليمان",
-        "أسامة بن زيد", "ثابت بن قيس", "زيد بن حارثة", "عكرمة بن أبي جهل"
-      ],
-      hard: [
-        "فسيكفيكهم", "قسطنطينية", "كهرومغناطيسية", "شنفرى زعبوط", "قلقاس باذنجان",
-        "عنكبوت أخطبوط", "سنجاب زمردي", "أرستقراطية", "برمائيات منقرضة",
-        "هيدروجين مشع", "طمطم بطاطا", "قرنبيط مقرمش", "كروموسومات متحولة"
-      ],
-      proverbs: [
-        "بطتنا بطت بطن بطتكم", "خشبة الحبس حبست خمس خشبات", 
-        "خيط حرير على حيط خليل", "شمس تمشي وشمس تقيف",
-        "قدر مرقة بقرتنا", "طير طار في الفضاء", "حفرة فار في قاع الدار"
-      ],
-      funny: [
-        "ملوخية بالأرانب", "كبسة حاشي فاخرة", "حواوشي إسكندراني حار",
-        "مقلوبة باذنجان", "شاورما دجاج إكسترا ثوم", "بليلة بلبلوكي",
-        "فلافل وطعمية سخنة", "كشري أبو طارق بالدقة", "منسف بلدي بالجميد"
-      ]
+    let currentLang = localStorage.getItem('user_lang_selected') || 'ar';
+
+    const TRANSLATIONS = {
+      ar: {
+        appTitle: "تحدي عكس الصوت",
+        appSubtitle: "Reverse Voice Challenge",
+        tagOnline: "أونلاين",
+        langToggle: "English 🇺🇸",
+        heroBadge: "🎙️ سجل بالمعكوس واكشف الكلمة! 🔄",
+        heroTitle: "التحدي الصوتي <span class='neon-text-cyan'>الأمتع والأغرب</span>",
+        heroDesc: "سجل كلمة أو اسم شخصية، ودع النظام يعكس صوتك! التحدي على صديقك أن يقلد الصوت المعكوس، لنقوم بعكس صوته ونكشف هل نطق الكلمة الأصلية أم لا!",
+        yourName: "اسمك في التحدي:",
+        namePlaceholder: "مثال: البطل، فهد، سارة...",
+        createRoom: "إنشاء غرفة جديدة",
+        joinRoom: "الانضمام برمز",
+        soloPractice: "🎯 تجربة سريعة بمفردك (سجل واسمع صوتك معكوساً فوراً)",
+        enterRoomCode: "أدخل رمز الغرفة المكون من 5 أرقام:",
+        btnEnter: "دخول",
+        roomLabel: "الغرفة:",
+        copyLink: "نسخ الرابط",
+        roundLabel: "الجولة:",
+        leaveRoom: "مغادرة",
+        roleHost: "المضيف",
+        roleCompetitor: "المنافس",
+        turnIndicatorChallenge: "الدور الحالي: تحدي 🎙️",
+        waitingCompetitorTitle: "في انتظار انضمام المنافس...",
+        waitingCompetitorDesc: "شارك رمز الغرفة أو أرسل رابط المشاركة المباشر لصديقك ليدخل التحدي معك فوراً!",
+        copyDirectLink: "📋 نسخ الرابط المباشر",
+        shareWhatsApp: "💬 إرسال عبر واتساب",
+        incognitoTip: "تلميح: إذا كنت تختبر اللعبة بمفردك، افتح الرابط في نافذة تصفح خفي (Incognito) أو من جوالك لتلعب ضد نفسك!",
+        turnChallenger: "دورك في التحدي 🎙️",
+        chooseWordTitle: "اختر كلمة وسجلها بصوتك",
+        chooseWordDesc: "اختر كلمة وصعوبتها، وانطقها بوضوح لمدة ثوان ثم اعكسها وأرسلها لخصمك!",
+        wordInputLabel: "الكلمة التي تريد تسجيلها:",
+        ideasBankBtn: "💡 بنك الأفكار والاقتراحات",
+        difficultyLabel: "مستوى الصعوبة والنقاط:",
+        easyDiff: "سهل (1 نقطة)",
+        mediumDiff: "متوسط (2 نقطة)",
+        hardDiff: "صعب (3 نقاط)",
+        canvasPromptRecord: "الموجات الصوتية ستظهر هنا أثناء التسجيل",
+        recordWord: "سجّل الآن",
+        recordingTip: "اضغط لبدء التسجيل (2-4 ثوان)، ثم اضغط ثانية للإنهاء",
+        reviewAudioHeader: "🎧 استمع للتسجيل قبل الإرسال:",
+        playOrigVoice: "🔊 تشغيل صوتك الأصلي",
+        playRevVoice: "🔄 استمع للصوت المعكوس",
+        sendChallenge: "🚀 إرسال التحدي المعكوس للمنافس",
+        guesserWaitingTitle: "المنافس يسجل التحدي الآن...",
+        guesserWaitingDesc: "انتظر لحظات، يقوم باختيار كلمة وتسجيلها وعكسها ليرسلها إليك!",
+        turnGuesser: "وصلك تحدي معكوس! 🎯",
+        listenReversedTitle: "استمع للتسجيل وقلّده بصوتك",
+        listenReversedDesc: "اضغط زر التشغيل لسماع الصوت المعكوس، ثم سجل صوتك وأنت تقلده تماماً بحذافيره!",
+        opponentRecordingLabel: "التسجيل المعكوس من المنافس:",
+        playReversedBtn: "تشغيل الصوت المعكوس 🎧",
+        mimicListenTip: "كرر الاستماع جيداً وحاول حفظ مخارج الحروف الغريبة!",
+        recordMimicBtn: "سجّل تقليدك",
+        mimicReadyLabel: "تسجيل تقليدك جاهز:",
+        playMimicVoice: "🔊 استمع لما سجلته",
+        sendMimic: "💥 إرسال التسجيل والوصول للمقارنة!",
+        challengerWaitingTitle: "المنافس يستمع لتسجيلك ويحاول تقليده!",
+        challengerWaitingDesc: "بمجرد أن يسجل صوته ويرسله، ستظهر المقارنة الرأسية لتقييم هل خرجت نفس كلمتك الأصلية!",
+        revealTitle: "🎉 لحظة الحقيقة والمقارنة الرأسية!",
+        secretWordWas: "الكلمة الأصلية كانت:",
+        revealSubtitle: "استمع للأصوات بالترتيب الرأسي من 1 إلى 4 لمعرفة هل استطاع المنافس كشف الكلمة!",
+        step1Title: "1. الكلمة الأصلية (صاحب التحدي):",
+        step1Badge: "الصوت الأصلي",
+        step1Btn: "🔊 استمع للكلمة الأصلية",
+        arrowReversed: "⬇️ تم عكس الصوت",
+        step2Title: "2. الصوت المعكوس الأول:",
+        step2Badge: "الذي سمعه المنافس",
+        step2Btn: "🔄 استمع للصوت المعكوس",
+        arrowMimic: "⬇️ المنافس استمع وحاول محاكاته",
+        step3Title: "3. تسجيل تقليد المنافس:",
+        step3Badge: "التقليد المباشر",
+        step3Btn: "🎭 استمع لتقليد المنافس",
+        arrowMagic: "⬇️ والآن.. السحر! عكس تسجيل المنافس (النتيجة الحاسمة)",
+        step4Title: "4. 🌟 عكس تقليد المنافس (هل خرجت الكلمة الأصلية؟):",
+        step4Badge: "كشف النتيجة",
+        step4Btn: "🚀 تشغيل عكس التقليد!",
+        judgeTitle: "⚖️ قرارك بصفتك صاحب الكلمة الأصلية",
+        judgeDesc: "استمع للخطوة 3 و 4، ثم احكم: هل استطاع المنافس إخراج كلمتك بنطق سليم؟",
+        judgeWrong: "❌ لا، النطق غير مطابق (0 نقطة)",
+        nextRound: "الانتقال للجولة التالية وتبديل الأدوار 🔁",
+        waitingJudgeTitle: "في انتظار تقييم صاحب الكلمة الأصلية...",
+        waitingJudgeDesc: "صاحب الكلمة يستمع الآن لتسجيلك ويقرر هل نطقك مطابق لكلمته لتستحق النقاط أم لا!",
+        footerCredit: "تحدي عكس الصوت © 2026 - تجربة صوتية تفاعلية بتقنية Web Audio API",
+        ideasBankTitle: "بنك الكلمات والمقترحات",
+        ideasBankSubtitle: "أفكار ممتعة مقسمة حسب الصعوبة والتصنيف",
+        filterDifficulty: "الصعوبة:",
+        pickRandomBtn: "🎲 اختيار كلمة عشوائية فوراً",
+        rulesTitle: "📖 كيف تلعب تحدي عكس الصوت؟",
+        rule1Title: "1. تسجيل المتحدي:",
+        rule1Desc: "يحدد اللاعب الأول كلمة سرية وصعوبتها (سهل 1، متوسط 2، صعب 3) ويسجلها بصوته لمدة ثانيتين إلى 4 ثوان.",
+        rule2Title: "2. عكس الصوت تلقائياً:",
+        rule2Desc: "يقوم النظام بعكس مصفوفة الصوت فتبدو كنغمة مقلوبة غريبة، ويتم إرسالها للمنافس.",
+        rule3Title: "3. محاكاة وتقليد المنافس:",
+        rule3Desc: "يستمع المنافس للنغمة المعكوسة ويسجل صوته وهو يحاول تقليد هذه الأصوات الغريبة بأعلى دقة.",
+        rule4Title: "4. كشف السحر والتحكيم:",
+        rule4Desc: "يقوم النظام بعكس تسجيل المنافس؛ إذا كان النطق مطابقاً للكلمة الأصلية، يعتمد صاحب التحدي النتيجة وتحسب النقاط!",
+        btnGotIt: "فهمت، لنبدأ التحدي!"
+      },
+      en: {
+        appTitle: "Reverse Voice Challenge",
+        appSubtitle: "Flip Audio & Guess Words",
+        tagOnline: "Online",
+        langToggle: "العربية 🇸🇦",
+        heroBadge: "🎙️ Record backwards & reveal the secret word! 🔄",
+        heroTitle: "The Funniest <span class='neon-text-cyan'>Voice Flip Game</span>",
+        heroDesc: "Say a word or celebrity name and reverse your voice! Your friend must mimic the reversed gibberish. When we reverse their mimicry, let's see if your original word emerges!",
+        yourName: "Your Player Name:",
+        namePlaceholder: "e.g., Alex, Sam, Champion...",
+        createRoom: "Create Room",
+        joinRoom: "Join with Code",
+        soloPractice: "🎯 Solo Practice (Record & hear reversed immediately)",
+        enterRoomCode: "Enter 5-digit room code:",
+        btnEnter: "Enter",
+        roomLabel: "Room:",
+        copyLink: "Copy Link",
+        roundLabel: "Round:",
+        leaveRoom: "Leave",
+        roleHost: "Host",
+        roleCompetitor: "Competitor",
+        turnIndicatorChallenge: "Current Turn: Challenger 🎙️",
+        waitingCompetitorTitle: "Waiting for opponent to join...",
+        waitingCompetitorDesc: "Share the room code or invite link with your friend to play together in real-time!",
+        copyDirectLink: "📋 Copy Direct Link",
+        shareWhatsApp: "💬 Share on WhatsApp",
+        incognitoTip: "Tip: Testing solo? Open the link in an Incognito window or phone to play against yourself!",
+        turnChallenger: "Your Turn to Challenge 🎙️",
+        chooseWordTitle: "Pick a Word & Record It",
+        chooseWordDesc: "Choose a word and its difficulty level, speak clearly, then flip and send it!",
+        wordInputLabel: "Word to Record:",
+        ideasBankBtn: "💡 Word Ideas Bank",
+        difficultyLabel: "Difficulty & Points:",
+        easyDiff: "Easy (1 pt)",
+        mediumDiff: "Medium (2 pts)",
+        hardDiff: "Hard (3 pts)",
+        canvasPromptRecord: "Sound waves will appear here while recording",
+        recordWord: "Record Now",
+        recordingTip: "Click to start recording (2-4 seconds), click again to stop",
+        reviewAudioHeader: "🎧 Listen Before Sending:",
+        playOrigVoice: "🔊 Play Original Voice",
+        playRevVoice: "🔄 Listen to Reversed",
+        sendChallenge: "🚀 Send Reversed Challenge to Opponent",
+        guesserWaitingTitle: "Opponent is recording the challenge...",
+        guesserWaitingDesc: "Please wait a moment, they are picking a word and reversing their voice!",
+        turnGuesser: "Challenge Received! 🎯",
+        listenReversedTitle: "Listen to Reversed Audio & Mimic It",
+        listenReversedDesc: "Play the reversed audio as much as you need, then record your voice mimicking it exactly!",
+        opponentRecordingLabel: "Reversed Audio from Opponent:",
+        playReversedBtn: "Play Reversed Audio 🎧",
+        mimicListenTip: "Listen closely to the weird sounds and repeat them note-for-note!",
+        recordMimicBtn: "Record Mimic",
+        mimicReadyLabel: "Your mimic recording is ready:",
+        playMimicVoice: "🔊 Listen to Your Mimic",
+        sendMimic: "💥 Send Recording & Reveal!",
+        challengerWaitingTitle: "Opponent is listening & mimicking your voice!",
+        challengerWaitingDesc: "Once they submit, the vertical comparison timeline will reveal if they nailed it!",
+        revealTitle: "🎉 The Moment of Truth & Comparison!",
+        secretWordWas: "The Secret Word Was:",
+        revealSubtitle: "Listen from 1 to 4 in order to hear the magical transformation!",
+        step1Title: "1. Original Word (Challenger):",
+        step1Badge: "Original Voice",
+        step1Btn: "🔊 Listen to Original Word",
+        arrowReversed: "⬇️ Audio was reversed",
+        step2Title: "2. Reversed Sound (Heard by Opponent):",
+        step2Badge: "What opponent heard",
+        step2Btn: "🔄 Listen to Reversed Sound",
+        arrowMimic: "⬇️ Opponent listened and mimicked",
+        step3Title: "3. Opponent's Mimic Recording:",
+        step3Badge: "Direct Imitation",
+        step3Btn: "🎭 Listen to Mimic Attempt",
+        arrowMagic: "⬇️ Now... The Magic! Reversing the mimic",
+        step4Title: "4. 🌟 Reversed Mimic (Did the word emerge?):",
+        step4Badge: "Final Verdict",
+        step4Btn: "🚀 Play Reversed Mimic!",
+        judgeTitle: "⚖️ Your Verdict (Original Challenger)",
+        judgeDesc: "Listen to Steps 3 and 4, then decide: Did your opponent get the word right?",
+        judgeWrong: "❌ No, Incorrect Pronunciation (0 pts)",
+        nextRound: "Next Round & Swap Roles 🔁",
+        waitingJudgeTitle: "Waiting for challenger's judgment...",
+        waitingJudgeDesc: "The challenger is listening to your reversed mimic and deciding if points are awarded!",
+        footerCredit: "Reverse Voice Challenge © 2026 - Interactive Audio Experience powered by Web Audio API",
+        ideasBankTitle: "Word Ideas & Suggestions",
+        ideasBankSubtitle: "Fun ideas categorized by difficulty and theme",
+        filterDifficulty: "Difficulty:",
+        pickRandomBtn: "🎲 Pick Random Word",
+        rulesTitle: "📖 How to Play Reverse Voice Challenge?",
+        rule1Title: "1. Challenger Records:",
+        rule1Desc: "Player 1 sets a secret word and difficulty (Easy 1, Medium 2, Hard 3) and records their voice for 2-4 seconds.",
+        rule2Title: "2. Reversing the Audio:",
+        rule2Desc: "The system reverses the audio buffer into alien-sounding gibberish and sends it to the opponent.",
+        rule3Title: "3. Opponent Mimics:",
+        rule3Desc: "The opponent listens to the reversed sound and records their voice mimicking the sounds as closely as possible.",
+        rule4Title: "4. The Reveal & Verdict:",
+        rule4Desc: "The system reverses the opponent's mimicry! If accurate, the original word is heard, and the challenger awards the points!",
+        btnGotIt: "Got it, let's play!"
+      }
     };
 
-    let currentCategory = 'sahaba';
+    /* Categorized Word Database (3 Difficulties: Easy 1pt, Medium 2pt, Hard 3pt) */
+    const WORDS_DATABASE = {
+      general: {
+        easy: [
+          { ar: "قلم", en: "Pen" },
+          { ar: "شاي", en: "Tea" },
+          { ar: "ماء", en: "Water" },
+          { ar: "باب", en: "Door" },
+          { ar: "كتاب", en: "Book" },
+          { ar: "تفاحة", en: "Apple" },
+          { ar: "قطة", en: "Cat" },
+          { ar: "سيارة", en: "Car" },
+          { ar: "شمس", en: "Sun" },
+          { ar: "قمر", en: "Moon" }
+        ],
+        medium: [
+          { ar: "نظارة شمسية", en: "Sunglasses" },
+          { ar: "شاحن جوال", en: "Phone Charger" },
+          { ar: "ساعة حائط", en: "Wall Clock" },
+          { ar: "قهوة مثلجة", en: "Iced Coffee" },
+          { ar: "حديقة الحيوان", en: "The Zoo" },
+          { ar: "طائرة ورقية", en: "Paper Plane" },
+          { ar: "وسادة ريش", en: "Feather Pillow" }
+        ],
+        hard: [
+          { ar: "مكنسة كهربائية", en: "Vacuum Cleaner" },
+          { ar: "إشارة المرور الذكية", en: "Traffic Light" },
+          { ar: "ميكروويف حراري", en: "Microwave Oven" },
+          { ar: "شاشة منحنية عملاقة", en: "Curved Display" },
+          { ar: "مظلة شتوية مطرزة", en: "Winter Umbrella" }
+        ]
+      },
+      celebrities: {
+        easy: [
+          { ar: "ميسي", en: "Messi" },
+          { ar: "نيمار", en: "Neymar" },
+          { ar: "توم كروز", en: "Tom Cruise" },
+          { ar: "عادل إمام", en: "Adel Imam" },
+          { ar: "شاكيرا", en: "Shakira" },
+          { ar: "بيلي إيليش", en: "Billie Eilish" }
+        ],
+        medium: [
+          { ar: "كريستيانو رونالدو", en: "Cristiano Ronaldo" },
+          { ar: "محمد صلاح", en: "Mohamed Salah" },
+          { ar: "بيل غيتس", en: "Bill Gates" },
+          { ar: "أحمد حلمي", en: "Ahmed Helmy" },
+          { ar: "مستر بيست", en: "MrBeast" },
+          { ar: "تايلور سويفت", en: "Taylor Swift" }
+        ],
+        hard: [
+          { ar: "إيلون ماسك الملياردير", en: "Elon Musk" },
+          { ar: "كيليان مبابي الفرنسي", en: "Kylian Mbappe" },
+          { ar: "ليوناردو دي كابريو", en: "Leonardo DiCaprio" },
+          { ar: "مورغان فريمان العظيم", en: "Morgan Freeman" }
+        ]
+      },
+      football: {
+        easy: [
+          { ar: "الهلال", en: "Al Hilal" },
+          { ar: "النصر", en: "Al Nassr" },
+          { ar: "أرسنال", en: "Arsenal" },
+          { ar: "هالاند", en: "Haaland" },
+          { ar: "بيلينغهام", en: "Bellingham" }
+        ],
+        medium: [
+          { ar: "ريال مدريد", en: "Real Madrid" },
+          { ar: "برشلونة", en: "Barcelona" },
+          { ar: "ليفربول", en: "Liverpool" },
+          { ar: "مانشستر سيتي", en: "Manchester City" },
+          { ar: "كريم بنزيما", en: "Karim Benzema" },
+          { ar: "لوكا مودريتش", en: "Luka Modric" }
+        ],
+        hard: [
+          { ar: "بايرن ميونخ الألماني", en: "Bayern Munich" },
+          { ar: "باريس سان جيرمان", en: "Paris Saint-Germain" },
+          { ar: "دوري أبطال أوروبا", en: "Champions League" },
+          { ar: "أتلتيكو مدريد الإسباني", en: "Atletico Madrid" }
+        ]
+      },
+      anime_movies: {
+        easy: [
+          { ar: "ون بيس", en: "One Piece" },
+          { ar: "ناروتو", en: "Naruto" },
+          { ar: "سبايدرمان", en: "Spider-Man" },
+          { ar: "باتمان", en: "Batman" },
+          { ar: "المحقق كونان", en: "Detective Conan" }
+        ],
+        medium: [
+          { ar: "هاري بوتر", en: "Harry Potter" },
+          { ar: "هجوم العمالقة", en: "Attack on Titan" },
+          { ar: "دراغون بول", en: "Dragon Ball" },
+          { ar: "القناع الأخضر", en: "The Mask" },
+          { ar: "مونكي دي لوفي", en: "Monkey D. Luffy" }
+        ],
+        hard: [
+          { ar: "قراصنة الكاريبي", en: "Pirates of Caribbean" },
+          { ar: "غوكو سوبر سايان", en: "Goku Super Saiyan" },
+          { ar: "كابتن ماجد النفاثة", en: "Captain Tsubasa" },
+          { ar: "سيد الخواتم الأسطوري", en: "Lord of the Rings" }
+        ]
+      },
+      food: {
+        easy: [
+          { ar: "كبسة", en: "Kabsa" },
+          { ar: "شاورما", en: "Shawarma" },
+          { ar: "بيتزا", en: "Pizza" },
+          { ar: "برجر", en: "Burger" },
+          { ar: "شاي كرك", en: "Karak Tea" },
+          { ar: "آيسكريم", en: "Ice Cream" }
+        ],
+        medium: [
+          { ar: "ورق عنب بالليمون", en: "Grape Leaves" },
+          { ar: "حواوشي إسكندراني", en: "Hawawshi" },
+          { ar: "باستا بالوايت صوص", en: "White Sauce Pasta" },
+          { ar: "كنافة نابلسية", en: "Kunafa" },
+          { ar: "شاورما دجاج إكسترا ثوم", en: "Garlic Shawarma" }
+        ],
+        hard: [
+          { ar: "ملوخية بالأرانب المصرية", en: "Rabbit Molokhia" },
+          { ar: "منسف أردني بالجميد", en: "Jordanian Mansaf" },
+          { ar: "كشري أبو طارق بالدقة", en: "Spicy Koshary" },
+          { ar: "فلافل حارة مع طحينة", en: "Spicy Falafel" }
+        ]
+      }
+    };
+
+    let currentCategory = 'general';
+    let currentDifficultyFilter = 'all';
+    let selectedWordDifficulty = 'medium'; // 'easy' (1pt), 'medium' (2pt), 'hard' (3pt)
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('user_lang_selected', lang);
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      const langLabel = document.getElementById('currentLangLabel');
+      if (langLabel) langLabel.innerText = (lang === 'ar') ? 'English 🇺🇸' : 'العربية 🇸🇦';
+
+      // Update static text elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+          el.innerHTML = TRANSLATIONS[lang][key];
+        }
+      });
+
+      // Update placeholders
+      const nameInput = document.getElementById('playerNameInput');
+      if (nameInput) nameInput.placeholder = TRANSLATIONS[lang].namePlaceholder;
+      const secretInput = document.getElementById('secretWordInput');
+      if (secretInput && !secretInput.value) {
+        secretInput.placeholder = (lang === 'ar') ? 'اكتب كلمتك هنا بنفسك أو اختر من بنك الأفكار...' : 'Type your secret word here or pick an idea...';
+      }
+
+      // Close modal
+      const modal = document.getElementById('modalLanguage');
+      if (modal) modal.classList.add('hidden');
+
+      renderWordsGrid();
+      updateDifficultyButtonsUI();
+    }
+
+    function toggleLanguage() {
+      const next = (currentLang === 'ar') ? 'en' : 'ar';
+      setLanguage(next);
+      showToast((next === 'ar') ? 'تم تفعيل اللغة العربية 🇸🇦' : 'English Activated 🇺🇸', '🌐');
+    }
+
+    function selectDifficulty(diff) {
+      selectedWordDifficulty = diff;
+      updateDifficultyButtonsUI();
+    }
+
+    function updateDifficultyButtonsUI() {
+      const btnEasy = document.getElementById('diffBtnEasy');
+      const btnMed = document.getElementById('diffBtnMedium');
+      const btnHard = document.getElementById('diffBtnHard');
+      if (!btnEasy || !btnMed || !btnHard) return;
+
+      const resetClass = "py-2.5 px-3 rounded-xl border border-white/10 glass-card text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95";
+
+      btnEasy.className = resetClass;
+      btnMed.className = resetClass;
+      btnHard.className = resetClass;
+
+      if (selectedWordDifficulty === 'easy') {
+        btnEasy.className = "py-2.5 px-3 rounded-xl border border-emerald-500/50 bg-emerald-500/20 text-emerald-300 text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95 shadow-md shadow-emerald-500/10";
+      } else if (selectedWordDifficulty === 'hard') {
+        btnHard.className = "py-2.5 px-3 rounded-xl border border-rose-500/50 bg-rose-500/20 text-rose-300 text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95 shadow-md shadow-rose-500/10";
+      } else {
+        btnMed.className = "py-2.5 px-3 rounded-xl border border-amber-500/50 bg-amber-500/20 text-amber-300 text-xs font-bold transition-all flex flex-col items-center gap-1 active:scale-95 shadow-md shadow-amber-500/10";
+      }
+
+      const points = (selectedWordDifficulty === 'easy') ? 1 : (selectedWordDifficulty === 'hard') ? 3 : 2;
+      const judgeCorrectPointsNum = document.getElementById('judgeCorrectPointsNum');
+      if (judgeCorrectPointsNum) judgeCorrectPointsNum.innerText = points;
+    }
+
 
     /* ========================================================================
        2. AUDIO ENGINE & WEB AUDIO API LOGIC
@@ -863,10 +1269,9 @@
     let audioCtx = null;
     let mediaRecorder = null;
     let recordedAudioChunks = [];
-    let isRecording = false;
-    let recordingTarget = null; // 'challenge' or 'mimic'
-    let recordingInterval = null;
-    let recordingSeconds = 0;
+    let isRecordingChallenge = false;
+    let isRecordingMimic = false;
+    let recordingTimerInterval = null;
     let visualizerAnimationId = null;
 
     // In-memory Audio Buffers
@@ -875,7 +1280,7 @@
     let localMimicAudioBuffer = null;
     let localMimicReversedBuffer = null;
 
-    // Base64 Data URLs for playing and syncing
+    // Base64 Audio URLs for sync
     let audioDataUrls = {
       challenge_orig: null,
       challenge_rev: null,
@@ -912,6 +1317,26 @@
       }
     }
 
+    // Upbeat Victory Fanfare
+    function playSuccessFanfare() {
+      try {
+        initAudioContext();
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, i) => {
+          setTimeout(() => playBeep(freq, 'triangle', 0.22), i * 110);
+        });
+      } catch(e) {}
+    }
+
+    // Failure / Wrong Buzzer Sound
+    function playErrorBuzzer() {
+      try {
+        initAudioContext();
+        playBeep(180, 'sawtooth', 0.28);
+        setTimeout(() => playBeep(135, 'sawtooth', 0.35), 180);
+      } catch(e) {}
+    }
+
     // Reverse an AudioBuffer
     function reverseAudioBuffer(buffer) {
       const reversed = audioCtx.createBuffer(
@@ -939,46 +1364,50 @@
 
       // Linear interpolation resampling
       for (let i = 0; i < length; i++) {
-        const srcIdx = i * ratio;
-        const i0 = Math.floor(srcIdx);
-        const i1 = Math.min(i0 + 1, buffer.length - 1);
-        const t = srcIdx - i0;
-        resampled[i] = srcData[i0] * (1 - t) + srcData[i1] * t;
+        const pos = i * ratio;
+        const index = Math.floor(pos);
+        const frac = pos - index;
+        const next = Math.min(index + 1, buffer.length - 1);
+        resampled[i] = srcData[index] * (1 - frac) + srcData[next] * frac;
       }
 
-      const wavBuffer = new ArrayBuffer(44 + length * 2);
-      const view = new DataView(wavBuffer);
+      // WAV Header creation
+      const bufferBytes = length * 2;
+      const wav = new ArrayBuffer(44 + bufferBytes);
+      const view = new DataView(wav);
 
-      function writeString(offset, string) {
+      function writeString(view, offset, string) {
         for (let i = 0; i < string.length; i++) {
           view.setUint8(offset + i, string.charCodeAt(i));
         }
       }
 
-      writeString(0, 'RIFF');
-      view.setUint32(4, 36 + length * 2, true);
-      writeString(8, 'WAVE');
-      writeString(12, 'fmt ');
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + bufferBytes, true);
+      writeString(view, 8, 'WAVE');
+      writeString(view, 12, 'fmt ');
       view.setUint32(16, 16, true);
       view.setUint16(20, 1, true); // PCM
       view.setUint16(22, numChannels, true);
       view.setUint32(24, targetRate, true);
       view.setUint32(28, targetRate * numChannels * 2, true);
       view.setUint16(32, numChannels * 2, true);
-      view.setUint16(34, 16, true); // 16-bit
-      writeString(36, 'data');
-      view.setUint32(40, length * 2, true);
+      view.setUint16(34, 16, true);
+      writeString(view, 36, 'data');
+      view.setUint32(40, bufferBytes, true);
 
+      // Write PCM samples (16-bit)
       let offset = 44;
       for (let i = 0; i < length; i++) {
-        let s = Math.max(-1, Math.min(1, resampled[i]));
+        const s = Math.max(-1, Math.min(1, resampled[i]));
         view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
         offset += 2;
       }
+
       return new Blob([view], { type: 'audio/wav' });
     }
 
-    function blobToDataURL(blob) {
+    function blobToBase64(blob) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
@@ -987,146 +1416,185 @@
       });
     }
 
-    // Toggle Recording
-    async function toggleRecording(target) {
+    function base64ToAudioBuffer(base64) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          initAudioContext();
+          const res = await fetch(base64);
+          const arrayBuffer = await res.arrayBuffer();
+          audioCtx.decodeAudioData(arrayBuffer, (decoded) => resolve(decoded), (err) => reject(err));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    // Playback Controller
+    let currentAudioSourceNode = null;
+    function playAudio(type) {
       initAudioContext();
-      if (isRecording) {
-        stopRecording();
-      } else {
-        startRecording(target);
+      if (currentAudioSourceNode) {
+        try { currentAudioSourceNode.stop(); } catch(e){}
+        currentAudioSourceNode = null;
+      }
+
+      let targetBuffer = null;
+      if (type === 'challenge_orig') targetBuffer = localChallengeAudioBuffer;
+      else if (type === 'challenge_rev') targetBuffer = localChallengeReversedBuffer;
+      else if (type === 'mimic_orig') targetBuffer = localMimicAudioBuffer;
+      else if (type === 'mimic_rev') targetBuffer = localMimicReversedBuffer;
+
+      if (!targetBuffer && audioDataUrls[type]) {
+        base64ToAudioBuffer(audioDataUrls[type]).then(buf => {
+          if (type === 'challenge_orig') localChallengeAudioBuffer = buf;
+          if (type === 'challenge_rev') localChallengeReversedBuffer = buf;
+          if (type === 'mimic_orig') localMimicAudioBuffer = buf;
+          if (type === 'mimic_rev') localMimicReversedBuffer = buf;
+          playBuffer(buf);
+        }).catch(e => {
+          showToast((currentLang === 'ar') ? "خطأ في تحميل الصوت" : "Audio load error", "⚠️");
+        });
+        return;
+      }
+
+      if (!targetBuffer) {
+        showToast((currentLang === 'ar') ? "لا يوجد تسجيل صوتي متاح للتشغيل" : "No audio recording available", "⚠️");
+        return;
+      }
+
+      playBuffer(targetBuffer);
+    }
+
+    function playBuffer(buf) {
+      initAudioContext();
+      const src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      src.connect(audioCtx.destination);
+      src.start();
+      currentAudioSourceNode = src;
+      showToast((currentLang === 'ar') ? "جاري تشغيل الصوت... 🎧" : "Playing audio... 🎧", "🔊");
+    }
+
+    // Recording Toggle
+    async function toggleRecording(phase) {
+      initAudioContext();
+
+      if (phase === 'challenge') {
+        if (!isRecordingChallenge) {
+          const word = document.getElementById('secretWordInput').value.trim();
+          if (!word) {
+            showToast((currentLang === 'ar') ? "يرجى كتابة الكلمة السرية أو اختيارها أولاً!" : "Please write or select a word first!", "⚠️");
+            document.getElementById('secretWordInput').focus();
+            return;
+          }
+          await startRecording('challenge');
+        } else {
+          stopRecording('challenge');
+        }
+      } else if (phase === 'mimic') {
+        if (!isRecordingMimic) {
+          await startRecording('mimic');
+        } else {
+          stopRecording('mimic');
+        }
       }
     }
 
-    async function startRecording(target) {
-      recordingTarget = target;
+    async function startRecording(phase) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          audio: { 
-            echoCancellation: true, 
-            noiseSuppression: true, 
-            autoGainControl: true 
-          } 
-        });
-
-        playBeep(600, 'sine', 0.1);
-        isRecording = true;
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         recordedAudioChunks = [];
-
-        // Setup Visualizer
-        setupVisualizer(stream, target);
-
-        // Timer
-        recordingSeconds = 0;
-        const timerElem = document.getElementById('recordingTimer');
-        if (timerElem && target === 'challenge') {
-          timerElem.classList.remove('hidden');
-          timerElem.innerText = '00:00';
-          recordingInterval = setInterval(() => {
-            recordingSeconds++;
-            const s = recordingSeconds < 10 ? '0' + recordingSeconds : recordingSeconds;
-            timerElem.innerText = `00:${s}`;
-            if (recordingSeconds >= 8) { // max 8 seconds
-              stopRecording();
-            }
-          }, 1000);
-        }
-
-        // UI toggles
-        if (target === 'challenge') {
-          document.getElementById('recordPulseRing').classList.remove('hidden');
-          document.getElementById('recordBtnLabel').innerText = 'إيقاف ⏹️';
-          document.getElementById('canvasOverlayPrompt').classList.add('hidden');
-        } else {
-          document.getElementById('mimicPulseRing').classList.remove('hidden');
-          document.getElementById('mimicBtnLabel').innerText = 'إيقاف ⏹️';
-          document.getElementById('canvasMimicOverlayPrompt').classList.add('hidden');
-        }
-
-        // MediaRecorder
         mediaRecorder = new MediaRecorder(stream);
+
         mediaRecorder.ondataavailable = (e) => {
           if (e.data.size > 0) recordedAudioChunks.push(e.data);
         };
 
         mediaRecorder.onstop = async () => {
-          stream.getTracks().forEach(track => track.stop());
-          if (visualizerAnimationId) cancelAnimationFrame(visualizerAnimationId);
-
-          const audioBlob = new Blob(recordedAudioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+          const audioBlob = new Blob(recordedAudioChunks, { type: 'audio/webm' });
           const arrayBuffer = await audioBlob.arrayBuffer();
-          
-          try {
-            const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-            await processFinishedRecording(decodedBuffer, target);
-          } catch (err) {
-            console.error("Audio decode error:", err);
-            showToast("حدث خطأ أثناء معالجة الصوت، يرجى المحاولة ثانية", "⚠️");
-          }
+
+          audioCtx.decodeAudioData(arrayBuffer, async (decodedBuffer) => {
+            if (phase === 'challenge') {
+              localChallengeAudioBuffer = decodedBuffer;
+              localChallengeReversedBuffer = reverseAudioBuffer(decodedBuffer);
+
+              const origWav = audioBufferToWavBlob(localChallengeAudioBuffer);
+              const revWav = audioBufferToWavBlob(localChallengeReversedBuffer);
+
+              audioDataUrls.challenge_orig = await blobToBase64(origWav);
+              audioDataUrls.challenge_rev = await blobToBase64(revWav);
+
+              document.getElementById('challengeReviewBox').classList.remove('hidden');
+              showToast((currentLang === 'ar') ? "تم تسجيل الكلمة وعكسها بنجاح! 🎧" : "Recorded & reversed successfully! 🎧", "✨");
+            } else if (phase === 'mimic') {
+              localMimicAudioBuffer = decodedBuffer;
+              localMimicReversedBuffer = reverseAudioBuffer(decodedBuffer);
+
+              const origWav = audioBufferToWavBlob(localMimicAudioBuffer);
+              const revWav = audioBufferToWavBlob(localMimicReversedBuffer);
+
+              audioDataUrls.mimic_orig = await blobToBase64(origWav);
+              audioDataUrls.mimic_rev = await blobToBase64(revWav);
+
+              document.getElementById('mimicReviewBox').classList.remove('hidden');
+              showToast((currentLang === 'ar') ? "تم تسجيل محاكاتك وعكسها بنجاح! 🎉" : "Mimic recorded & reversed! 🎉", "✨");
+            }
+          });
+
+          stream.getTracks().forEach(track => track.stop());
         };
 
         mediaRecorder.start();
-        showToast("بدأ التسجيل... انطق الكلمة الآن!", "🎙️");
+
+        if (phase === 'challenge') {
+          isRecordingChallenge = true;
+          document.getElementById('recordPulseRing').classList.remove('hidden');
+          document.getElementById('recordBtnLabel').innerText = (currentLang === 'ar') ? "إيقاف وحفظ" : "Stop & Save";
+          document.getElementById('btnRecordWord').classList.replace('from-rose-500', 'from-emerald-500');
+          document.getElementById('canvasOverlayPrompt').innerText = (currentLang === 'ar') ? "جاري التسجيل... انطق الكلمة بوضوح!" : "Recording... Speak clearly!";
+        } else {
+          isRecordingMimic = true;
+          document.getElementById('mimicPulseRing').classList.remove('hidden');
+          document.getElementById('mimicBtnLabel').innerText = (currentLang === 'ar') ? "إيقاف وحفظ" : "Stop & Save";
+          document.getElementById('canvasMimicOverlayPrompt').innerText = (currentLang === 'ar') ? "جاري تسجيل محاكاتك..." : "Recording your mimic...";
+        }
+
+        startVisualizer(stream, phase === 'challenge' ? 'recordVisualizerCanvas' : 'mimicVisualizerCanvas');
+        playBeep(600, 'sine', 0.1);
 
       } catch (err) {
-        console.error("Mic error:", err);
-        showToast("تعذر الوصول للمايكروفون. يرجى السماح بالإذن في المتصفح.", "❌");
+        console.error("Microphone access error:", err);
+        showToast((currentLang === 'ar') ? "يرجى السماح بالوصول للمايكروفون للعب!" : "Please allow microphone access!", "🚫");
       }
     }
 
-    function stopRecording() {
-      if (!isRecording) return;
-      isRecording = false;
-      playBeep(350, 'sine', 0.15);
-      if (recordingInterval) clearInterval(recordingInterval);
-
-      if (recordingTarget === 'challenge') {
-        document.getElementById('recordPulseRing').classList.add('hidden');
-        document.getElementById('recordBtnLabel').innerText = 'سجّل الآن';
-      } else {
-        document.getElementById('mimicPulseRing').classList.add('hidden');
-        document.getElementById('mimicBtnLabel').innerText = 'سجّل تقليدك';
-      }
-
+    function stopRecording(phase) {
       if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         mediaRecorder.stop();
       }
-    }
 
-    async function processFinishedRecording(decodedBuffer, target) {
-      if (target === 'challenge') {
-        localChallengeAudioBuffer = decodedBuffer;
-        localChallengeReversedBuffer = reverseAudioBuffer(decodedBuffer);
-
-        const origWav = audioBufferToWavBlob(localChallengeAudioBuffer);
-        const revWav = audioBufferToWavBlob(localChallengeReversedBuffer);
-
-        audioDataUrls.challenge_orig = await blobToDataURL(origWav);
-        audioDataUrls.challenge_rev = await blobToDataURL(revWav);
-
-        document.getElementById('challengeReviewBox').classList.remove('hidden');
-        showToast("تم تسجيل وعكس الصوت بنجاح! 🎧", "✅");
+      if (phase === 'challenge') {
+        isRecordingChallenge = false;
+        document.getElementById('recordPulseRing').classList.add('hidden');
+        document.getElementById('recordBtnLabel').innerText = (currentLang === 'ar') ? "سجّل مجدداً" : "Record Again";
+        document.getElementById('btnRecordWord').classList.replace('from-emerald-500', 'from-rose-500');
+        document.getElementById('canvasOverlayPrompt').innerText = (currentLang === 'ar') ? "تم تسجيل الصوت!" : "Audio recorded!";
       } else {
-        localMimicAudioBuffer = decodedBuffer;
-        localMimicReversedBuffer = reverseAudioBuffer(decodedBuffer);
-
-        const origWav = audioBufferToWavBlob(localMimicAudioBuffer);
-        const revWav = audioBufferToWavBlob(localMimicReversedBuffer);
-
-        audioDataUrls.mimic_orig = await blobToDataURL(origWav);
-        audioDataUrls.mimic_rev = await blobToDataURL(revWav);
-
-        document.getElementById('mimicReviewBox').classList.remove('hidden');
-        showToast("تم تسجيل تقليدك وعكسه بنجاح! 🎯", "✅");
+        isRecordingMimic = false;
+        document.getElementById('mimicPulseRing').classList.add('hidden');
+        document.getElementById('mimicBtnLabel').innerText = (currentLang === 'ar') ? "سجّل مجدداً" : "Record Again";
+        document.getElementById('canvasMimicOverlayPrompt').innerText = (currentLang === 'ar') ? "تم تسجيل المحاكاة!" : "Mimic recorded!";
       }
+
+      if (visualizerAnimationId) cancelAnimationFrame(visualizerAnimationId);
+      playBeep(400, 'sine', 0.1);
     }
 
-    // Audio Visualizer
-    function setupVisualizer(stream, target) {
-      const canvas = document.getElementById(target === 'challenge' ? 'recordVisualizerCanvas' : 'mimicVisualizerCanvas');
-      if (canvas.clientWidth && canvas.clientHeight) {
-        canvas.width = canvas.clientWidth * (window.devicePixelRatio || 1);
-        canvas.height = canvas.clientHeight * (window.devicePixelRatio || 1);
-      }
+    // Audio Canvas Visualizer
+    function startVisualizer(stream, canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const source = audioCtx.createMediaStreamSource(stream);
       const analyser = audioCtx.createAnalyser();
@@ -1140,74 +1608,39 @@
         visualizerAnimationId = requestAnimationFrame(draw);
         analyser.getByteFrequencyData(dataArray);
 
-        ctx.fillStyle = '#070a12';
+        ctx.fillStyle = '#060911';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        const barWidth = (canvas.width / bufferLength) * 1.5;
-        let barHeight;
+        const barWidth = (canvas.width / bufferLength) * 1.8;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
-          barHeight = (dataArray[i] / 255) * canvas.height * 0.9;
-          
+          const barHeight = (dataArray[i] / 255) * canvas.height * 0.9;
           const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
-          if (target === 'challenge') {
-            gradient.addColorStop(0, '#00f0ff');
-            gradient.addColorStop(1, '#ff007f');
-          } else {
-            gradient.addColorStop(0, '#b026ff');
-            gradient.addColorStop(1, '#10b981');
-          }
-
+          gradient.addColorStop(0, '#00f0ff');
+          gradient.addColorStop(1, '#b026ff');
           ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.roundRect(x, canvas.height - barHeight, barWidth - 2, barHeight, [4, 4, 0, 0]);
-          ctx.fill();
-
-          x += barWidth;
+          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+          x += barWidth + 2;
         }
       }
       draw();
     }
 
-    // Universal Audio Player with active instance management
-    let currentAudioPlayer = null;
-    function playAudio(key) {
-      initAudioContext();
-      const url = audioDataUrls[key];
-      if (!url) {
-        showToast("الملف الصوتي غير متوفر حالياً", "⚠️");
-        return;
-      }
-
-      if (currentAudioPlayer) {
-        currentAudioPlayer.pause();
-        currentAudioPlayer.currentTime = 0;
-      }
-
-      currentAudioPlayer = new Audio(url);
-      currentAudioPlayer.play().then(() => {
-        showToast("جاري التشغيل... 🎧", "🔊");
-      }).catch(e => {
-        console.error("Playback error:", e);
-        showToast("تعذر تشغيل الصوت", "⚠️");
-      });
-    }
-
 
     /* ========================================================================
-       3. MULTIPLAYER ENGINE (FIREBASE FIRESTORE + LOCAL BROADCAST FALLBACK)
+       3. MULTIPLAYER ROOM & SYNC ENGINE
        ======================================================================== */
-    let currentRoomCode = null;
     let myPlayerId = 'p_' + Math.random().toString(36).substring(2, 9);
     let myPlayerName = '';
+    let currentRoomCode = null;
     let isHost = false;
-    let roomUnsubscribe = null;
     let broadcastChannel = null;
+    let peerInstance = null;
+    let p2pConn = null;
     let isFirebaseReady = false;
     let db = null;
 
-    // Room State Schema
     let roomState = {
       code: '',
       hostId: '',
@@ -1217,285 +1650,145 @@
       guestName: '',
       guestScore: 0,
       round: 1,
-      turn: 'host', // 'host' or 'guest' who records the secret word
-      step: 'waiting_player', // 'waiting_player', 'record_challenge', 'guess_mimic', 'reveal_vote'
+      turn: 'host', // 'host' or 'guest'
+      step: 'waiting_player', // 'waiting_player' | 'record_challenge' | 'guess_mimic' | 'reveal_vote'
       secretWord: '',
+      wordDifficulty: 'medium',
+      difficultyPoints: 2,
+      lastJudgeResult: null,
       audioChallengeOrig: '',
       audioChallengeRev: '',
       audioMimicOrig: '',
       audioMimicRev: ''
     };
 
-    // Your Firebase Configuration (From Firebase Console)
-    const DEFAULT_FIREBASE_CONFIG = {
-      apiKey: "AIzaSyAD9dy-xYMpxhsjwdKYcugnouIENGoOX4p4",
-      authDomain: "l3bh-4ce19.firebaseapp.com",
-      projectId: "l3bh-4ce19",
-      storageBucket: "l3bh-4ce19.firebasestorage.app",
-      messagingSenderId: "152627044715",
-      appId: "1:152627044715:web:6dbc646ee6f903f4b8ec2e",
-      measurementId: "G-CTD1V4HRMS"
-    };
-
-    // Initialize Firebase
     function initFirebaseClient() {
-      let config = DEFAULT_FIREBASE_CONFIG;
-      const savedConfig = localStorage.getItem('rev_voice_firebase_config');
-      if (savedConfig) {
-        try {
-          const parsed = JSON.parse(savedConfig);
-          if (parsed && parsed.apiKey) config = parsed;
-        } catch (e) {
-          console.warn("Error reading local config, using default:", e);
-        }
-      }
-
       try {
-        if (config && config.apiKey && config.projectId) {
-          if (!firebase.apps.length) {
-            firebase.initializeApp(config);
-          }
-          db = firebase.firestore();
-          isFirebaseReady = true;
-          updateConnectionBadge(true);
-          return;
+        const config = {
+          apiKey: document.getElementById('fbApiKey').value.trim(),
+          projectId: document.getElementById('fbProjectId').value.trim(),
+          authDomain: document.getElementById('fbProjectId').value.trim() + ".firebaseapp.com"
+        };
+        if (!firebase.apps.length) {
+          firebase.initializeApp(config);
         }
+        db = firebase.firestore();
+        isFirebaseReady = true;
       } catch (err) {
-        console.error("Firebase init failed:", err);
+        console.warn("Firebase Init fallback to P2P/Local:", err);
+        isFirebaseReady = false;
       }
-
-      // Fallback: Local Multi-tab Mode
-      isFirebaseReady = false;
-      updateConnectionBadge(false);
-      setupBroadcastChannel();
     }
 
-    function setupBroadcastChannel() {
-      if (!broadcastChannel && 'BroadcastChannel' in window) {
-        broadcastChannel = new BroadcastChannel('reverse_voice_room_channel');
+    function initPeerJS(code, onOpenCallback) {
+      if (peerInstance) {
+        try { peerInstance.destroy(); } catch(e){}
+      }
+      const peerId = 'rvc_host_' + code;
+      peerInstance = new Peer(peerId, { debug: 1 });
+      peerInstance.on('open', (id) => {
+        if (onOpenCallback) onOpenCallback(id);
+      });
+      peerInstance.on('connection', (conn) => {
+        p2pConn = conn;
+        setupP2PConnection(conn);
+      });
+    }
+
+    function initGuestPeer(code, onConnectedCallback) {
+      if (peerInstance) {
+        try { peerInstance.destroy(); } catch(e){}
+      }
+      peerInstance = new Peer({ debug: 1 });
+      peerInstance.on('open', () => {
+        const targetHostId = 'rvc_host_' + code;
+        p2pConn = peerInstance.connect(targetHostId, { reliable: true });
+        setupP2PConnection(p2pConn);
+        p2pConn.on('open', () => {
+          if (onConnectedCallback) onConnectedCallback();
+        });
+      });
+    }
+
+    function setupP2PConnection(conn) {
+      conn.on('data', (data) => {
+        if (data && data.type === 'SYNC_STATE') {
+          applyRoomUpdate(data.state);
+        }
+      });
+    }
+
+    function subscribeToRoom(code) {
+      try {
+        broadcastChannel = new BroadcastChannel('reverse_room_' + code);
         broadcastChannel.onmessage = (event) => {
-          if (event.data && event.data.code === currentRoomCode) {
-            applyRoomUpdate(event.data);
+          if (event.data && event.data.type === 'ROOM_UPDATE') {
+            applyRoomUpdate(event.data.room);
           }
         };
-      }
+      } catch (e) {}
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'room_' + code && e.newValue) {
+          try {
+            applyRoomUpdate(JSON.parse(e.newValue));
+          } catch(err){}
+        }
+      });
     }
 
-    // PeerJS P2P WebRTC Layer (Zero-config instant multiplayer)
-    let p2pPeer = null;
-    let p2pConn = null;
+    async function syncRoomState(patch) {
+      roomState = { ...roomState, ...patch };
 
-    function initHostPeer(code) {
-      if (typeof Peer === 'undefined') return;
+      // 1. Local Storage & Broadcast Channel
       try {
-        if (p2pPeer) p2pPeer.destroy();
-        p2pPeer = new Peer('revgame_' + code);
-        p2pPeer.on('open', () => {
-          console.log("P2P Host listening on room:", code);
-          updateConnectionBadge(true, "متصل أونلاين (P2P + السحابة) 🟢");
-        });
-        p2pPeer.on('connection', (conn) => {
-          p2pConn = conn;
-          p2pConn.on('open', () => {
-            showToast("انضم المنافس للغرفة بنجاح! 🎮", "🟢");
-            p2pConn.send({ type: 'SYNC_STATE', state: roomState });
-          });
-          p2pConn.on('data', (data) => {
-            if (data && data.type === 'SYNC_STATE') {
-              applyRoomUpdate(data.state);
-            }
-          });
-        });
-        p2pPeer.on('error', (err) => {
-          console.warn("PeerJS Host notice:", err);
-        });
-      } catch (e) {
-        console.warn("PeerJS host init exception:", e);
-      }
-    }
+        localStorage.setItem('room_' + currentRoomCode, JSON.stringify(roomState));
+        if (broadcastChannel) {
+          broadcastChannel.postMessage({ type: 'ROOM_UPDATE', room: roomState });
+        }
+      } catch (e) {}
 
-    function initGuestPeer(code, onConnected) {
-      if (typeof Peer === 'undefined') return;
-      try {
-        if (p2pPeer) p2pPeer.destroy();
-        p2pPeer = new Peer();
-        p2pPeer.on('open', () => {
-          p2pConn = p2pPeer.connect('revgame_' + code);
-          p2pConn.on('open', () => {
-            console.log("Connected to Host P2P!");
-            updateConnectionBadge(true, "متصل أونلاين (P2P) 🟢");
-            if (onConnected) onConnected();
-          });
-          p2pConn.on('data', (data) => {
-            if (data && data.type === 'SYNC_STATE') {
-              applyRoomUpdate(data.state);
-            }
-          });
-        });
-        p2pPeer.on('error', (err) => {
-          console.warn("PeerJS Guest notice:", err);
-        });
-      } catch (e) {
-        console.warn("PeerJS guest init exception:", e);
-      }
-    }
-
-    function updateConnectionBadge(connected, customText) {
-      const dot = document.getElementById('statusIndicatorDot');
-      const text = document.getElementById('statusIndicatorText');
-      if (connected) {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400";
-        text.innerText = customText || "متصل أونلاين 🔥";
-        text.className = "text-cyan-300";
-      } else {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse";
-        text.innerText = "وضع محلي / تجريبي 🟡";
-        text.className = "text-amber-300";
-      }
-    }
-
-    // Save Firebase Config
-    function saveFirebaseConfig() {
-      const apiKey = document.getElementById('fbApiKey').value.trim();
-      const projectId = document.getElementById('fbProjectId').value.trim();
-      const authDomain = document.getElementById('fbAuthDomain').value.trim();
-
-      if (!apiKey || !projectId) {
-        showToast("يرجى إدخال API Key و Project ID على الأقل", "⚠️");
-        return;
-      }
-
-      const config = { apiKey, projectId, authDomain };
-      localStorage.setItem('rev_voice_firebase_config', JSON.stringify(config));
-      closeFirebaseModal();
-      location.reload();
-    }
-
-    function useLocalModeOnly() {
-      localStorage.removeItem('rev_voice_firebase_config');
-      closeFirebaseModal();
-      location.reload();
-    }
-
-    function showFirestoreAlertBanner() {
-      const banner = document.getElementById('firestoreNoticeBanner');
-      if (banner) banner.classList.remove('hidden');
-    }
-
-    // Synchronize Room State across all engines (P2P + Firestore + Local)
-    function syncRoomState(newState) {
-      roomState = { ...roomState, ...newState };
-
-      // 1. Send via PeerJS WebRTC P2P
+      // 2. WebRTC P2P
       if (p2pConn && p2pConn.open) {
         try {
           p2pConn.send({ type: 'SYNC_STATE', state: roomState });
-        } catch (e) {
-          console.warn("P2P send notice:", e);
-        }
+        } catch(e){}
       }
 
-      // 2. Send via Firestore (non-blocking in background)
-      if (isFirebaseReady && db) {
-        db.collection('reverse_rooms').doc(currentRoomCode).set(roomState, { merge: true })
-          .catch(err => {
-            console.warn("Firestore sync background notice:", err);
-            if (err && err.message && (err.message.includes('API has not been used') || err.message.includes('SERVICE_DISABLED') || err.code === 'permission-denied')) {
-              showFirestoreAlertBanner();
-            }
-          });
-      }
-
-      // 3. Send via Netlify Serverless Function (/api/room)
-      if (window.location.protocol.startsWith('http') && currentRoomCode) {
-        fetch(`/api/room?code=${currentRoomCode}`, {
-          method: 'PUT',
+      // 3. Netlify Functions Polling API
+      if (window.location.protocol.startsWith('http')) {
+        fetch('/api/room', {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(roomState)
-        }).catch(e => console.warn("Netlify Function sync notice:", e));
+        }).catch(e => console.warn("Netlify sync silent fallback", e));
       }
 
-      // 4. Local BroadcastChannel + localStorage sync
-      localStorage.setItem('room_' + currentRoomCode, JSON.stringify(roomState));
-      if (broadcastChannel) {
-        broadcastChannel.postMessage(roomState);
+      // 4. Firestore (if configured)
+      if (isFirebaseReady && db) {
+        try {
+          await db.collection('reverse_rooms').doc(currentRoomCode).set(roomState, { merge: true });
+        } catch (e) {
+          console.warn("Firestore sync fallback", e);
+        }
       }
 
       applyRoomUpdate(roomState);
     }
 
-    // Subscribe to Room Updates
-    function subscribeToRoom(code) {
-      // 1. Netlify Serverless Function Polling
-      if (window.location.protocol.startsWith('http')) {
-        if (window._netlifyPollInterval) clearInterval(window._netlifyPollInterval);
-        window._netlifyPollInterval = setInterval(async () => {
-          if (!currentRoomCode) return;
-          try {
-            const res = await fetch(`/api/room?code=${currentRoomCode}`);
-            if (res.ok) {
-              const data = await res.json();
-              if (data && data.updatedAt && data.updatedAt > (roomState.updatedAt || 0)) {
-                applyRoomUpdate(data);
-              }
-            }
-          } catch(e) {}
-        }, 1200);
-      }
-
-      // 2. Firestore Listener
-      if (isFirebaseReady && db) {
-        if (roomUnsubscribe) roomUnsubscribe();
-        roomUnsubscribe = db.collection('reverse_rooms').doc(code).onSnapshot((doc) => {
-          if (doc.exists) {
-            applyRoomUpdate(doc.data());
-          }
-        }, (err) => {
-          console.warn("Firestore listener warning:", err);
-          if (err && err.message && (err.message.includes('API has not been used') || err.code === 'permission-denied')) {
-            showFirestoreAlertBanner();
-          }
-        });
-      } else {
-        const localData = localStorage.getItem('room_' + code);
-        if (localData) {
-          applyRoomUpdate(JSON.parse(localData));
-        }
-      }
-    }
-
-    // Apply Incoming Room State to UI
     function applyRoomUpdate(state) {
-      roomState = state;
-      currentRoomCode = state.code;
+      if (!state) return;
+      roomState = { ...roomState, ...state };
 
-      // Update Top Bar
-      document.getElementById('displayRoomCode').innerText = state.code;
-      document.getElementById('displayRoundNumber').innerText = state.round;
+      // Update Names & Scores
+      document.getElementById('p1Name').innerText = roomState.hostName || (currentLang === 'ar' ? 'اللاعب 1' : 'Player 1');
+      document.getElementById('p2Name').innerText = roomState.guestName || (currentLang === 'ar' ? 'في انتظار المنافس...' : 'Waiting for opponent...');
+      document.getElementById('p1Score').innerText = roomState.hostScore || 0;
+      document.getElementById('p2Score').innerText = roomState.guestScore || 0;
+      document.getElementById('displayRoundNumber').innerText = roomState.round || 1;
 
-      // Update Players
-      document.getElementById('p1Name').innerText = state.hostName || 'اللاعب 1';
-      document.getElementById('p1Score').innerText = state.hostScore || 0;
-      
-      if (state.guestName) {
-        document.getElementById('p2Name').innerText = state.guestName;
-        document.getElementById('p2Score').innerText = state.guestScore || 0;
-      } else {
-        document.getElementById('p2Name').innerText = 'في انتظار المنافس...';
-        document.getElementById('p2Score').innerText = '0';
-      }
-
-      // Sync Audio URLs from state
-      if (state.audioChallengeOrig) audioDataUrls.challenge_orig = state.audioChallengeOrig;
-      if (state.audioChallengeRev) audioDataUrls.challenge_rev = state.audioChallengeRev;
-      if (state.audioMimicOrig) audioDataUrls.mimic_orig = state.audioMimicOrig;
-      if (state.audioMimicRev) audioDataUrls.mimic_rev = state.audioMimicRev;
-
-      // Identify Current Role
-      const amIChallenger = (state.turn === 'host' && isHost) || (state.turn === 'guest' && !isHost);
-
-      // Render Active Game Phase
-      renderPhaseScreen(state.step, amIChallenger);
+      const amIChallenger = (roomState.turn === 'host' && isHost) || (roomState.turn === 'guest' && !isHost);
+      renderPhaseScreen(roomState.step, amIChallenger);
     }
 
     // Render Phase Screen
@@ -1513,7 +1806,6 @@
       const p1Turn = document.getElementById('p1TurnIndicator');
       const p2Turn = document.getElementById('p2TurnIndicator');
 
-      // Hide all states first
       waitPlayerBox.classList.add('hidden');
       recordChallengeBox.classList.add('hidden');
       guessMimicBox.classList.add('hidden');
@@ -1540,7 +1832,13 @@
         }
       } else if (step === 'guess_mimic') {
         guessMimicBox.classList.remove('hidden');
-        if (!amIChallenger) { // The other player is mimicking
+        const diffBadge = document.getElementById('revealedDifficultyBadge');
+        if (diffBadge) {
+          const pts = roomState.difficultyPoints || 2;
+          diffBadge.innerText = (pts === 1) ? "🟢 " + TRANSLATIONS[currentLang].easyDiff : (pts === 3) ? "🔴 " + TRANSLATIONS[currentLang].hardDiff : "🟡 " + TRANSLATIONS[currentLang].mediumDiff;
+        }
+
+        if (!amIChallenger) {
           guesserActiveView.classList.remove('hidden');
           challengerWaitingView.classList.add('hidden');
         } else {
@@ -1559,6 +1857,11 @@
         const guesserWaitJudgeBox = document.getElementById('guesserWaitJudgeBox');
         const judgeFeedbackNotice = document.getElementById('judgeFeedbackNotice');
         const guesserVerdictNotice = document.getElementById('guesserVerdictNotice');
+        const judgeCorrectPointsNum = document.getElementById('judgeCorrectPointsNum');
+
+        if (judgeCorrectPointsNum) {
+          judgeCorrectPointsNum.innerText = roomState.difficultyPoints || 2;
+        }
 
         if (amIChallenger) {
           if (challengerJudgeBox) challengerJudgeBox.classList.remove('hidden');
@@ -1571,8 +1874,12 @@
         // Show judgment verdict if already decided
         if (roomState.lastJudgeResult) {
           const isSuccess = roomState.lastJudgeResult === 'success';
-          const msg = isSuccess ? '✅ تم اعتماد النقطة: التقليد صحيح وناجح!' : '❌ حكم صاحب الكلمة: التقليد غير مطابق (0 نقطة)';
-          const colorClass = isSuccess ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
+          const pts = roomState.difficultyPoints || 2;
+          const msg = isSuccess ? 
+            ((currentLang === 'ar') ? `🎉 تقليد ناجح! تم احتساب +${pts} نقاط للمنافس!` : `🎉 Correct mimic! +${pts} points awarded!`) : 
+            ((currentLang === 'ar') ? '❌ حكم صاحب الكلمة: التقليد غير مطابق (0 نقطة)' : '❌ Challenger Verdict: Wrong pronunciation (0 pts)');
+          
+          const colorClass = isSuccess ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40';
 
           if (judgeFeedbackNotice) {
             judgeFeedbackNotice.innerText = msg;
@@ -1595,9 +1902,9 @@
     /* ========================================================================
        4. GAMEPLAY ACTIONS & USER INTERACTION
        ======================================================================== */
-    // Solo / Practice Mode (Test immediately without waiting for a second player)
+    // Solo / Practice Mode
     function startSoloPracticeMode() {
-      myPlayerName = document.getElementById('playerNameInput').value.trim() || 'المتحدي';
+      myPlayerName = document.getElementById('playerNameInput').value.trim() || (currentLang === 'ar' ? 'المتحدي' : 'Challenger');
       isHost = true;
       const code = 'SOLO-' + Math.floor(100 + Math.random() * 900);
       currentRoomCode = code;
@@ -1608,12 +1915,15 @@
         hostName: myPlayerName,
         hostScore: 0,
         guestId: myPlayerId + '_bot',
-        guestName: 'وضع التدريب 🎯',
+        guestName: (currentLang === 'ar') ? 'وضع التدريب 🎯' : 'Practice Bot 🎯',
         guestScore: 0,
         round: 1,
         turn: 'host',
         step: 'record_challenge',
         secretWord: '',
+        wordDifficulty: 'medium',
+        difficultyPoints: 2,
+        lastJudgeResult: null,
         audioChallengeOrig: '',
         audioChallengeRev: '',
         audioMimicOrig: '',
@@ -1623,15 +1933,15 @@
       document.getElementById('screenLobby').classList.add('hidden');
       document.getElementById('screenRoom').classList.remove('hidden');
       document.getElementById('displayRoomCode').innerText = code;
-      pickRandomSuggestedWord();
+      pickRandomFromCurrentCategory();
       applyRoomUpdate(roomState);
 
-      showToast("بدأ وضع التدريب! سجل الكلمة واسمع صوتك معكوساً فوراً 🎧", "✨");
+      showToast((currentLang === 'ar') ? "بدأ وضع التدريب! سجل الكلمة واسمع صوتك معكوساً فوراً 🎧" : "Solo Practice Started! Record & flip voice 🎧", "✨");
     }
 
     // Create Room
     function handleCreateRoom() {
-      const name = document.getElementById('playerNameInput').value.trim() || 'المتحدي 1';
+      const name = document.getElementById('playerNameInput').value.trim() || (currentLang === 'ar' ? 'المتحدي 1' : 'Player 1');
       myPlayerName = name;
       isHost = true;
       const code = Math.floor(10000 + Math.random() * 90000).toString();
@@ -1649,37 +1959,39 @@
         turn: 'host',
         step: 'waiting_player',
         secretWord: '',
+        wordDifficulty: 'medium',
+        difficultyPoints: 2,
+        lastJudgeResult: null,
         audioChallengeOrig: '',
         audioChallengeRev: '',
         audioMimicOrig: '',
         audioMimicRev: ''
       };
 
-      // 1. Switch UI immediately without waiting for network!
       document.getElementById('screenLobby').classList.add('hidden');
       document.getElementById('screenRoom').classList.remove('hidden');
       document.getElementById('displayRoomCode').innerText = code;
-      pickRandomSuggestedWord();
-      applyRoomUpdate(roomState);
 
-      // 2. Connect P2P & sync in background
-      initHostPeer(code);
       syncRoomState(roomState);
       subscribeToRoom(code);
 
-      showToast(`تم إنشاء الغرفة (${code}) بنجاح!`, "🎉");
+      // WebRTC PeerJS Host
+      initPeerJS(code, () => {
+        showToast((currentLang === 'ar') ? `تم إنشاء الغرفة (${code}) بنجاح! شارك الرابط مع صديقك 🚀` : `Room (${code}) created! Share the link 🚀`, "🎉");
+      });
     }
 
+    // Join Room
     function showJoinCard() {
       document.getElementById('joinCodeBox').classList.toggle('hidden');
+      document.getElementById('joinRoomCodeInput').focus();
     }
 
-    // Join Room by Code
     function handleJoinRoomSubmit() {
       const code = document.getElementById('joinRoomCodeInput').value.trim();
-      const name = document.getElementById('playerNameInput').value.trim() || 'المنافس';
+      const name = document.getElementById('playerNameInput').value.trim() || (currentLang === 'ar' ? 'المنافس' : 'Guest');
       if (!code) {
-        showToast("يرجى إدخال رمز الغرفة", "⚠️");
+        showToast((currentLang === 'ar') ? "يرجى إدخال رمز الغرفة" : "Please enter room code", "⚠️");
         return;
       }
       joinRoomWithCode(code, name);
@@ -1690,20 +2002,16 @@
       isHost = false;
       currentRoomCode = code;
 
-      // 1. Switch UI immediately!
       document.getElementById('screenLobby').classList.add('hidden');
       document.getElementById('screenRoom').classList.remove('hidden');
       document.getElementById('displayRoomCode').innerText = code;
 
       let existingRoom = null;
-
-      // Try Local Multi-Tab
       const local = localStorage.getItem('room_' + code);
       if (local) {
         try { existingRoom = JSON.parse(local); } catch(e){}
       }
 
-      // Try Netlify Serverless Backend
       if (window.location.protocol.startsWith('http')) {
         fetch(`/api/room?code=${code}`)
           .then(res => res.ok ? res.json() : null)
@@ -1719,19 +2027,10 @@
           .catch(e => console.warn("Netlify fetch error:", e));
       }
 
-      // Try Firestore in background (non-blocking)
-      if (isFirebaseReady && db) {
-        db.collection('reverse_rooms').doc(code).get().then(doc => {
-          if (doc && doc.exists) {
-            applyRoomUpdate(doc.data());
-          }
-        }).catch(e => console.warn("Firestore fetch error:", e));
-      }
-
       const activeState = existingRoom || {
         code: code,
         hostId: 'host_player',
-        hostName: 'المتحدي الأول',
+        hostName: (currentLang === 'ar' ? 'المتحدي الأول' : 'Player 1'),
         hostScore: 0,
         guestId: myPlayerId,
         guestName: myPlayerName,
@@ -1740,6 +2039,8 @@
         turn: 'host',
         step: 'record_challenge',
         secretWord: '',
+        wordDifficulty: 'medium',
+        difficultyPoints: 2,
         audioChallengeOrig: '',
         audioChallengeRev: '',
         audioMimicOrig: '',
@@ -1754,45 +2055,48 @@
       syncRoomState(activeState);
       subscribeToRoom(code);
 
-      // Connect via WebRTC P2P
       initGuestPeer(code, () => {
         if (p2pConn && p2pConn.open) {
           p2pConn.send({ type: 'SYNC_STATE', state: activeState });
         }
-        showToast("متصل مباشرة بالمنافس عبر WebRTC! 🟢", "🎮");
+        showToast((currentLang === 'ar') ? "متصل مباشرة بالمنافس عبر WebRTC! 🟢" : "Connected via WebRTC! 🟢", "🎮");
       });
 
-      showToast(`انضممت للغرفة (${code}) بنجاح!`, "🚀");
+      showToast((currentLang === 'ar') ? `انضممت للغرفة (${code}) بنجاح!` : `Joined room (${code})!`, "🚀");
     }
 
     // Submit Challenge from Challenger
     async function submitChallengeToOpponent() {
       const word = document.getElementById('secretWordInput').value.trim() || 'تحدي';
       if (!audioDataUrls.challenge_rev) {
-        showToast("يرجى تسجيل الصوت أولاً!", "⚠️");
+        showToast((currentLang === 'ar') ? "يرجى تسجيل الصوت أولاً!" : "Please record audio first!", "⚠️");
         return;
       }
 
-      showToast("جاري إرسال التحدي للمنافس...", "⏳");
+      showToast((currentLang === 'ar') ? "جاري إرسال التحدي للمنافس..." : "Sending challenge...", "⏳");
+
+      const points = (selectedWordDifficulty === 'easy') ? 1 : (selectedWordDifficulty === 'hard') ? 3 : 2;
 
       await syncRoomState({
         secretWord: word,
+        wordDifficulty: selectedWordDifficulty,
+        difficultyPoints: points,
         audioChallengeOrig: audioDataUrls.challenge_orig,
         audioChallengeRev: audioDataUrls.challenge_rev,
         step: 'guess_mimic'
       });
 
-      showToast("تم إرسال الصوت المعكوس للمنافس بنجاح! 🚀", "✅");
+      showToast((currentLang === 'ar') ? "تم إرسال الصوت المعكوس للمنافس بنجاح! 🚀" : "Sent reversed challenge to opponent! 🚀", "✅");
     }
 
-    // Submit Mimic Attempt from Guesser
+    // Submit Mimic Attempt from Guesser (NO CONFETTI HERE! Confetti only on judge verdict)
     async function submitMimicAttempt() {
       if (!audioDataUrls.mimic_orig) {
-        showToast("يرجى تسجيل تقليدك أولاً!", "⚠️");
+        showToast((currentLang === 'ar') ? "يرجى تسجيل تقليدك أولاً!" : "Please record your mimic first!", "⚠️");
         return;
       }
 
-      showToast("جاري الكشف...", "⏳");
+      showToast((currentLang === 'ar') ? "جاري تجهيز المقارنة الرأسية..." : "Preparing reveal...", "⏳");
 
       await syncRoomState({
         audioMimicOrig: audioDataUrls.mimic_orig,
@@ -1800,35 +2104,40 @@
         step: 'reveal_vote'
       });
 
-      triggerConfetti();
-      showToast("وصلت النتيجة! اكشفوا السحر الآن! 🎉", "💥");
+      showToast((currentLang === 'ar') ? "وصلت النتيجة! افتحوا الأصوات بالترتيب الرأسي! 🎧" : "Result ready! Listen in vertical order! 🎧", "💥");
     }
 
     // Judge Round and award points (ONLY the Challenger who set the original word can judge)
     function judgeRound(success) {
       const amIChallenger = (roomState.turn === 'host' && isHost) || (roomState.turn === 'guest' && !isHost);
       if (!amIChallenger) {
-        showToast("فقط صاحب الكلمة الأصلية هو من يحق له الحكم على النتيجة!", "⚠️");
+        showToast((currentLang === 'ar') ? "فقط صاحب الكلمة الأصلية هو من يحق له الحكم على النتيجة!" : "Only the word creator can judge!", "⚠️");
         return;
       }
 
+      const points = roomState.difficultyPoints || 2;
       let hScore = roomState.hostScore || 0;
       let gScore = roomState.guestScore || 0;
 
-      // Who was the guesser this round?
       if (roomState.turn === 'host') {
-        if (success) gScore += 1;
+        if (success) gScore += points;
       } else {
-        if (success) hScore += 1;
+        if (success) hScore += points;
       }
+
+      const revealBox = document.getElementById('stateRevealVote');
 
       if (success) {
         triggerConfetti();
-        playBeep(880, 'triangle', 0.3);
-        showToast("اعتمدت النتيجة: تم إضافة نقطة للمنافس! 🏆", "⭐");
+        playSuccessFanfare();
+        showToast((currentLang === 'ar') ? `🎉 اعتمدت النتيجة: تم إضافة +${points} نقاط للمنافس!` : `🎉 Success: +${points} points awarded!`, "⭐");
       } else {
-        playBeep(220, 'sawtooth', 0.2);
-        showToast("اعتمدت النتيجة: التقليد غير مطابق (0 نقطة)", "❌");
+        playErrorBuzzer();
+        if (revealBox) {
+          revealBox.classList.add('animate-shake');
+          setTimeout(() => revealBox.classList.remove('animate-shake'), 600);
+        }
+        showToast((currentLang === 'ar') ? "اعتمدت النتيجة: التقليد غير مطابق (0 نقطة)" : "Judgment: Wrong pronunciation (0 pts)", "❌");
       }
 
       syncRoomState({
@@ -1842,7 +2151,7 @@
     function startNextRound() {
       const amIChallenger = (roomState.turn === 'host' && isHost) || (roomState.turn === 'guest' && !isHost);
       if (!amIChallenger) {
-        showToast("في انتظار صاحب الكلمة لبدء الجولة التالية ⏳", "⚠️");
+        showToast((currentLang === 'ar') ? "في انتظار صاحب الكلمة لبدء الجولة التالية ⏳" : "Waiting for word owner to start next round ⏳", "⚠️");
         return;
       }
 
@@ -1875,112 +2184,144 @@
         audioMimicRev: ''
       });
 
-      showToast(`بدأت الجولة ${nextRound}! تم تبديل الأدوار 🔁`, "🎮");
-    }
-
-    // Smart URL Builder for Sharing
-    function getShareUrl() {
-      let base = window.location.origin + window.location.pathname;
-      if (window.location.protocol === 'file:' || !window.location.origin.startsWith('http')) {
-        base = 'https://golden-croissant-cdf999.netlify.app/';
-      }
-      return `${base}?room=${currentRoomCode}`;
-    }
-
-    // Copy Shareable Link
-    function copyShareableLink() {
-      const url = getShareUrl();
-      navigator.clipboard.writeText(url).then(() => {
-        showToast("تم نسخ رابط الغرفة الرسمي أونلاين! 📋", "🔗");
-      }).catch(() => {
-        showToast("رمز الغرفة: " + currentRoomCode, "📋");
-      });
-    }
-
-    function shareOnWhatsApp() {
-      const url = getShareUrl();
-      const text = encodeURIComponent(`تعال نلعب تحدي عكس الصوت أونلاين معي! 🎙️🔄\nادخل الغرفة فوراً عبر الرابط:\n${url}`);
-      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+      showToast((currentLang === 'ar') ? `بدأت الجولة ${nextRound}! تم تبديل الأدوار 🔁` : `Round ${nextRound} started! Roles swapped 🔁`, "🎮");
     }
 
     function leaveRoom() {
-      if (confirm("هل تريد بالتأكيد مغادرة الغرفة؟")) {
-        location.href = window.location.origin + window.location.pathname;
+      if (confirm((currentLang === 'ar') ? "هل أنت متأكد من مغادرة الغرفة؟" : "Are you sure you want to leave the room?")) {
+        goToLobby();
       }
     }
 
     function goToLobby() {
-      if (currentRoomCode) {
-        if (!confirm("هل تريد العودة للشاشة الرئيسية؟")) return;
+      document.getElementById('screenRoom').classList.add('hidden');
+      document.getElementById('screenLobby').classList.remove('hidden');
+      currentRoomCode = null;
+      if (peerInstance) {
+        try { peerInstance.destroy(); } catch(e){}
       }
-      location.href = window.location.origin + window.location.pathname;
+    }
+
+    function copyShareableLink() {
+      const link = `${window.location.origin}${window.location.pathname}?room=${currentRoomCode}`;
+      navigator.clipboard.writeText(link).then(() => {
+        showToast((currentLang === 'ar') ? "تم نسخ الرابط المباشر إلى الحافظة! 📋" : "Direct link copied! 📋", "✅");
+      }).catch(() => {
+        prompt((currentLang === 'ar') ? "انسخ رابط الغرفة:" : "Copy room link:", link);
+      });
+    }
+
+    function shareOnWhatsApp() {
+      const link = `${window.location.origin}${window.location.pathname}?room=${currentRoomCode}`;
+      const text = (currentLang === 'ar') ?
+        `🎙️ اتحداك تقلّد صوتي المعكوس في لعبة تحدي عكس الصوت!\nادخل معي التحدي من الرابط:\n${link}` :
+        `🎙️ I challenge you in Reverse Voice Challenge!\nJoin my room here:\n${link}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
     }
 
 
     /* ========================================================================
-       5. WORDS GENERATOR & DICTIONARY LOGIC
+       5. WORD BANK & CATEGORY FILTERING LOGIC
        ======================================================================== */
     function filterWordCategory(cat) {
       currentCategory = cat;
-      const tabs = ['tabSahaba', 'tabHard', 'tabProverbs', 'tabFunny'];
-      tabs.forEach(id => {
-        const btn = document.getElementById(id);
-        if (id.toLowerCase().includes(cat)) {
-          btn.className = "px-3 py-1.5 rounded-lg bg-cyan-500 text-night-950 font-bold whitespace-nowrap";
-        } else {
-          btn.className = "px-3 py-1.5 rounded-lg glass-card text-slate-300 hover:text-white font-bold whitespace-nowrap";
-        }
+      const tabs = ['tabGeneral', 'tabCelebrities', 'tabFootball', 'tabAnime', 'tabFood'];
+      tabs.forEach(t => {
+        const el = document.getElementById(t);
+        if (!el) return;
+        el.className = "px-3 py-1.5 rounded-xl glass-card text-slate-300 hover:text-white whitespace-nowrap";
       });
+
+      const activeMap = {
+        general: 'tabGeneral',
+        celebrities: 'tabCelebrities',
+        football: 'tabFootball',
+        anime_movies: 'tabAnime',
+        food: 'tabFood'
+      };
+      const activeEl = document.getElementById(activeMap[cat]);
+      if (activeEl) {
+        activeEl.className = "px-3 py-1.5 rounded-xl bg-cyan-500 text-night-950 font-black whitespace-nowrap shadow-md";
+      }
+
+      renderWordsGrid();
+    }
+
+    function filterWordDifficulty(diff) {
+      currentDifficultyFilter = diff;
+      const subTabs = ['subDiffAll', 'subDiffEasy', 'subDiffMedium', 'subDiffHard'];
+      subTabs.forEach(s => {
+        const el = document.getElementById(s);
+        if (!el) return;
+        el.className = "px-2.5 py-1 rounded-lg hover:bg-white/10 text-slate-300";
+      });
+
+      const activeMap = {
+        all: 'subDiffAll',
+        easy: 'subDiffEasy',
+        medium: 'subDiffMedium',
+        hard: 'subDiffHard'
+      };
+      const activeEl = document.getElementById(activeMap[diff]);
+      if (activeEl) {
+        activeEl.className = "px-2.5 py-1 rounded-lg bg-white/20 text-white font-black";
+      }
+
       renderWordsGrid();
     }
 
     function renderWordsGrid() {
       const container = document.getElementById('wordsListContainer');
+      if (!container) return;
       container.innerHTML = '';
-      const list = WORDS_DATABASE[currentCategory] || [];
 
-      list.forEach(item => {
-        const btn = document.createElement('button');
-        btn.className = "p-2.5 rounded-xl glass-card hover:border-cyan-400 text-slate-200 text-xs font-bold text-center truncate transition-all active:scale-95";
-        btn.innerText = item;
-        btn.onclick = () => {
-          selectWordFromBank(item);
-        };
-        container.appendChild(btn);
+      const catData = WORDS_DATABASE[currentCategory] || WORDS_DATABASE.general;
+      let itemsToRender = [];
+
+      if (currentDifficultyFilter === 'all') {
+        itemsToRender = [
+          ...catData.easy.map(i => ({ ...i, diff: 'easy', pts: 1 })),
+          ...catData.medium.map(i => ({ ...i, diff: 'medium', pts: 2 })),
+          ...catData.hard.map(i => ({ ...i, diff: 'hard', pts: 3 }))
+        ];
+      } else {
+        const list = catData[currentDifficultyFilter] || [];
+        const pts = (currentDifficultyFilter === 'easy') ? 1 : (currentDifficultyFilter === 'hard') ? 3 : 2;
+        itemsToRender = list.map(i => ({ ...i, diff: currentDifficultyFilter, pts: pts }));
+      }
+
+      itemsToRender.forEach(item => {
+        const wordText = (currentLang === 'ar') ? item.ar : item.en;
+        const diffBadge = item.diff === 'easy' ? '🟢 1' : item.diff === 'hard' ? '🔴 3' : '🟡 2';
+        const card = document.createElement('button');
+        card.className = "p-2.5 rounded-xl bg-night-900 border border-white/10 hover:border-cyan-400 hover:bg-slate-800 text-slate-100 text-xs font-bold transition-all text-start flex items-center justify-between gap-1 active:scale-95";
+        card.innerHTML = `
+          <span class="truncate">${wordText}</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-400 shrink-0">${diffBadge}</span>
+        `;
+        card.onclick = () => selectWordFromBank(wordText, item.diff);
+        container.appendChild(card);
       });
     }
 
-    function selectWordFromBank(word) {
-      document.getElementById('secretWordInput').value = word;
+    function selectWordFromBank(word, diff = 'medium') {
+      const input = document.getElementById('secretWordInput');
+      if (input) input.value = word;
+      selectDifficulty(diff);
       closeWordGenModal();
-      showToast(`تم اختيار: ${word}`, "✨");
+      showToast((currentLang === 'ar') ? `تم اختيار: ${word} (${diff === 'easy' ? 'سهل' : diff === 'hard' ? 'صعب' : 'متوسط'})` : `Selected: ${word}`, "✨");
     }
 
     function pickRandomFromCurrentCategory() {
-      const list = WORDS_DATABASE[currentCategory] || [];
-      const item = list[Math.floor(Math.random() * list.length)];
-      selectWordFromBank(item);
-    }
-
-    function pickRandomSuggestedWord() {
-      const keys = Object.keys(WORDS_DATABASE);
-      const randKey = keys[Math.floor(Math.random() * keys.length)];
-      const list = WORDS_DATABASE[randKey];
-      const item = list[Math.floor(Math.random() * list.length)];
-
-      const input = document.getElementById('secretWordInput');
-      if (input) input.value = item;
-
-      const badge = document.getElementById('wordCategoryBadge');
-      if (badge) {
-        const names = {
-          sahaba: 'أسماء الصحابة رضوان الله عليهم ⭐',
-          hard: 'كلمات صعبة ومعقدة 🤯',
-          proverbs: 'أمثال وتحديات اللسان 👅',
-          funny: 'أكلات ومصطلحات طريفة 🍔'
-        };
-        badge.innerText = `تصنيف: ${names[randKey] || 'عام'}`;
-      }
+      const catData = WORDS_DATABASE[currentCategory] || WORDS_DATABASE.general;
+      const all = [
+        ...catData.easy.map(i => ({ ...i, diff: 'easy' })),
+        ...catData.medium.map(i => ({ ...i, diff: 'medium' })),
+        ...catData.hard.map(i => ({ ...i, diff: 'hard' }))
+      ];
+      const rand = all[Math.floor(Math.random() * all.length)];
+      const text = (currentLang === 'ar') ? rand.ar : rand.en;
+      selectWordFromBank(text, rand.diff);
     }
 
 
@@ -2029,8 +2370,8 @@
     function triggerConfetti() {
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 90,
+          spread: 75,
           origin: { y: 0.6 }
         });
       }
@@ -2038,11 +2379,20 @@
 
 
     /* ========================================================================
-       7. APP INITIALIZATION (CHECK URL FOR ROOM PARAM)
+       7. APP INITIALIZATION
        ======================================================================== */
     window.addEventListener('DOMContentLoaded', () => {
+      // Check Language
+      const savedLang = localStorage.getItem('user_lang_selected');
+      if (!savedLang) {
+        document.getElementById('modalLanguage').classList.remove('hidden');
+      } else {
+        setLanguage(savedLang);
+      }
+
       initFirebaseClient();
       renderWordsGrid();
+      updateDifficultyButtonsUI();
 
       // Check URL query parameters (e.g. ?room=12345)
       const urlParams = new URLSearchParams(window.location.search);
@@ -2050,7 +2400,7 @@
       if (queryRoom) {
         showJoinCard();
         document.getElementById('joinRoomCodeInput').value = queryRoom;
-        showToast("تم العثور على رمز الغرفة من الرابط! أدخل اسمك للدخول.", "🎯");
+        showToast((currentLang === 'ar') ? "تم العثور على رمز الغرفة من الرابط! أدخل اسمك للدخول." : "Room code detected from link! Enter your name.", "🎯");
       }
     });
   </script>
